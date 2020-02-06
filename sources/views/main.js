@@ -1,6 +1,5 @@
 import {JetView, plugins} from "webix-jet";
-
-
+import logout from '../models/session';
 
 export default class TopView extends JetView{
 	config(){
@@ -9,7 +8,7 @@ export default class TopView extends JetView{
 			{id: "users", icon: "mdi mdi-account-multiple", value:"Пользователи"},
 			{id: "service", icon: "mdi mdi-briefcase", value:"Услуги"},
 		];
-
+		var logout_btn = { view:"button", type:"icon", icon:"mdi mdi-exit-to-app", click: () => this.show("/logout") };
 		var ui = {
 			rows: [
 				{ view: "toolbar", padding:3, elements: [
@@ -18,7 +17,11 @@ export default class TopView extends JetView{
 							}
 						},
 						{ view: "label", label: "Панель админа"},
-						{},
+						{width: 150, cols:[
+								{ view: "label", label: "Выход"},
+								logout_btn
+							]}
+
 					]
 				},
 				{ cols:[

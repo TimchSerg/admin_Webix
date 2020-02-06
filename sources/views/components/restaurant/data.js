@@ -1,8 +1,6 @@
 import {JetView} from "webix-jet";
 import {renderPhone} from '../../controllers/functions';
 
-let _base_dir_ = 'https://platform.ru/';
-
 export default class DataView extends JetView{
 	config(){
 		return {
@@ -27,6 +25,7 @@ export default class DataView extends JetView{
 					}
 				},
 				{ id:"phone_owner",   header:"Телефон владельца", width:140, template: (obj)=>{ return renderPhone(obj.phone); }},
+				{ id:"active", header:"Активность", template:"{common.checkbox()}"},
 			],
 			select:"row",
 			on:{
@@ -34,15 +33,29 @@ export default class DataView extends JetView{
 					$$('edit_btn').enable();
 					$$('delete_btn').enable();
 				},
+				onCheck:(row, column, state)=>{
+					this.activeRestaurant(row, state);
+				}
 			}
 		};
 	}
-	init(){
-		webix.ajax(`${_base_dir_}threeraza/admin/restaurant`).then(
+	activeRestaurant(id, state){
+		let active = state ? 1 : 2;
+		webix.ajax(`${base_url}/threeraza/admin/active/${id}/${active}`).then(
 			res=>{
+				let result = res.json();
+				console.log(result);
+			},
+			rej=>console.log(rej.json(), 'error')
+		);
+	}
+	init(){
+		webix.ajax(`${base_url}/threeraza/admin/restaurant`).then(
+			res=>{
+				let result = res.json();
 
 				$$("data_restaurants").clearAll();
-				$$("data_restaurants").parse(res.json(),"json");
+				$$("data_restaurants").parse(result,"json");
 
 			},
 			rej=>console.log(rej.json(), 'error')

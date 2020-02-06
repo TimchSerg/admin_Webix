@@ -1,5 +1,6 @@
 var path = require("path");
 var webpack = require("webpack");
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const _dir_name_ = '/var/www/platform/style/listings/js/public';
 
@@ -63,7 +64,10 @@ module.exports = function(env) {
 				APPNAME: `"${pack.name}"`,
 				PRODUCTION : production,
 				BUILD_AS_MODULE : (asmodule || standalone)
-			})
+			}),
+			new MomentLocalesPlugin({
+				localesToKeep: ['es-us', 'ru'],
+			}),
 		],
 		devServer:{
 			stats:"errors-only"

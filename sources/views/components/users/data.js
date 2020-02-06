@@ -1,36 +1,33 @@
 import {JetView} from "webix-jet";
 import {renderPhone} from '../../controllers/functions';
-
-let _base_dir_ = 'https://platform.ru/';
+import Owner from 'jet-views/components/users/Owner';
+import Customers from 'jet-views/components/users/Сustomers';
+import groupBy from 'lodash.groupby';
 
 export default class DataView extends JetView{
 	config(){
-		return {
-			view:"datatable",
-			id: 'data_users',
-			autoConfig:true,
-			css:"webix_shadow_medium",
-			resizeColumn:true,
-			//
-			select:"row",
-			on:{
-				onAfterSelect:()=>{
-					$$('edit_btn').enable();
-					$$('delete_btn').enable();
-				},
-			}
-		};
+		let ui = {
+			rows:[
+				Owner,
+				{height:15},
+				Customers
+			]
+		}
+		return ui;
 	}
 	init(){
-		webix.ajax(`${_base_dir_}threeraza/admin/users`).then(
+		webix.ajax(`${base_url}/threeraza/admin/users`).then(
 			res=>{
+				let result = res.json();
+				let group = groupBy(result, 'type');
 
-				$$("data_users").clearAll();
-				$$("data_users").parse(res.json(),"json");
+				$$("data_users_owner").clearAll();
+				$$("data_users_owner").parse(group['Владелец'],"json");
+				$$("data_users_customer").clearAll();
+				$$("data_users_customer").parse(group['Клиент'],"json");
 
 			},
 			rej=>console.log(rej.json(), 'error')
 		);
 	}
-
 }
