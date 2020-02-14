@@ -18,7 +18,7 @@ export default class Customers extends JetView{
 				{ id:"city",   header:"Город", width:100},
 				{ id:"country",   header:"Страна", width:100},
 				{ id:"email",    header:"Email", width:150},
-				{ id:"phone",   header:"Телефон", width:140, template: (obj)=>{ return renderPhone(obj.phone); }},
+				{ id:"phone",   header:"Телефон", width:140,},
 				{ id:"reg_date",   header:"Дата регистрации", width:140, template: (obj)=>{ return renderDate(obj.reg_date); }},
 			],
 			select:"row",

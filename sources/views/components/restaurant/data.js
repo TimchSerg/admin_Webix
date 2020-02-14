@@ -12,11 +12,11 @@ export default class DataView extends JetView{
 			columns: [
 				{ id:"id",    header:"#", width:50},
 				{ id:"logo",   header:"", width:50, template:"<img class='datatable_images' src='#logo#' width='34' height='34'/>",},
-				{ id:"name",   header:"Наименование", fillspace:true},
-				{ id:"city",   header:"Город", width:100},
-				{ id:"address",    header:"Адрес", width:150},
-				{ id:"phone",   header:"Телефон", width:140, template: (obj)=>{ return renderPhone(obj.phone); }},
-				{ id:"owner",   header:"Владелец", width:150, template: (obj)=>{
+				{ id:"name",   header:"Наименование", sort:"string", fillspace:true},
+				{ id:"city",   header:"Город", sort:"string", width:100},
+				{ id:"address",    header:"Адрес", sort:"string", width:150},
+				{ id:"phone",   header:"Телефон", sort:"string", width:140},
+				{ id:"owner",   header:"Владелец", sort:"string", width:150, template: (obj)=>{
 						if(obj.owner == ' '){
 							return 'Пользователь не заполнил о себе'
 						}else{
@@ -24,7 +24,7 @@ export default class DataView extends JetView{
 						}
 					}
 				},
-				{ id:"phone_owner",   header:"Телефон владельца", width:140, template: (obj)=>{ return renderPhone(obj.phone); }},
+				{ id:"phone_owner",   header:"Телефон владельца", width:140},
 				{ id:"active", header:"Активность", template:"{common.checkbox()}"},
 			],
 			select:"row",
@@ -35,6 +35,10 @@ export default class DataView extends JetView{
 				},
 				onCheck:(row, column, state)=>{
 					this.activeRestaurant(row, state);
+				},
+				onItemDblClick:()=>{
+					let edit_btn = $$('edit_btn');
+					edit_btn.callEvent('onItemClick');
 				}
 			}
 		};
@@ -50,16 +54,8 @@ export default class DataView extends JetView{
 		);
 	}
 	init(){
-		webix.ajax(`${base_url}/threeraza/admin/restaurant`).then(
-			res=>{
-				let result = res.json();
-
-				$$("data_restaurants").clearAll();
-				$$("data_restaurants").parse(result,"json");
-
-			},
-			rej=>console.log(rej.json(), 'error')
-		);
+		let refresh_btn = $$('refresh_btn');
+		refresh_btn.callEvent('onItemClick');
 	}
 
 }

@@ -32,7 +32,6 @@ export default class LoginView extends JetView{
 
 		if (form.validate()){
 			const data = form.getValues();
-			console.log(data);
 			user.login(data.login, data.pass).catch(function(err){
 				console.log(err);
 				webix.html.removeCss(form.$view, "invalid_login");
