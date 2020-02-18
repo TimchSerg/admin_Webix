@@ -13,7 +13,7 @@ export default class OldDataView extends JetView{
 				{ id:"country",   header:"Страна", sort:"string",},
 				{ id:"city",   header:[ "Город", { content:"textFilter" } ], sort:"string", width:100, },
 				{ id:"name",   header:"Наименование", sort:"string", fillspace:true},
-				{ id:"phone",   header:"Телефон", sort:"string", fillspace:true},
+				{ id:"phone",   header:[ "Телефон", { content:"textFilter" } ], sort:"string", fillspace:true},
 				{ id:"crossStreet",    header:"Адрес", sort:"string", width:150},
 			],
 			select:"row",

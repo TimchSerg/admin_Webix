@@ -64,7 +64,7 @@ export default class Active extends JetView{
 		webix.ajax(`${base_url}/threeraza/admin/restaurant`).then(
 			res=>{
 				let result = res.json();
-
+				console.log(result, 'asd');
 				$$("data_restaurants").clearAll();
 				$$("data_restaurants").parse(result,"json");
 			},

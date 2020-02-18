@@ -8,7 +8,7 @@ export default class DataView extends JetView{
 		let ui = {
 			rows: [
 				DonateData,
-				{height: 15},
+				{view:'resizer'},
 				DataRestaurantDonate
 			]
 		};

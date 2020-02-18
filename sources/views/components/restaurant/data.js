@@ -10,12 +10,16 @@ export default class DataView extends JetView{
 			css:"webix_shadow_medium",
 			resizeColumn:true,
 			columns: [
-				{ id:"id",    header:"#", width:50},
+				{ id:"id",    header:[ "#", { content:"textFilter" } ], width:50},
 				{ id:"logo",   header:"", width:50, template:"<img class='datatable_images' src='#logo#' width='34' height='34'/>",},
 				{ id:"name",   header:"Наименование", sort:"string", fillspace:true},
+				{ id:"link",   header:"Просмотр заведения", sort:"string", fillspace:true, template:(e)=>{
+						//console.log(e);
+						return `<a href="https://platform.ru/#/list/${e.name}/${e.id}/"> link </a>`;
+					}},
 				{ id:"city",   header:"Город", sort:"string", width:100},
 				{ id:"address",    header:"Адрес", sort:"string", width:150},
-				{ id:"phone",   header:"Телефон", sort:"string", width:140},
+				{ id:"phone",   header:[ "Телефон", { content:"textFilter" } ], sort:"string", width:140},
 				{ id:"owner",   header:"Владелец", sort:"string", width:150, template: (obj)=>{
 						if(obj.owner == ' '){
 							return 'Пользователь не заполнил о себе'
@@ -24,7 +28,7 @@ export default class DataView extends JetView{
 						}
 					}
 				},
-				{ id:"phone_owner",   header:"Телефон владельца", width:140},
+				{ id:"phone_owner",   header:[ "Телефон владельца", { content:"textFilter" } ], width:180},
 				{ id:"active", header:"Активность", template:"{common.checkbox()}"},
 			],
 			select:"row",

@@ -10,14 +10,20 @@ export default class DataRestaurantDonate extends JetView{
 			autoConfig: true,
 			css: "webix_shadow_medium",
 			columns: [
-				{ id:"id",    header:"#", width:50},
-				{ id:"restaurant",   header:"Наименование заведения", fillspace:true},
-				{ id:"date_from",   header:"От: ", width:120, template: (obj)=>{ return renderDate(obj.date_from); }},
-				{ id:"date_to",   header:"До: ", width:120, template: (obj)=>{ return renderDate(obj.date_to); }},
-				{ id:"service_name",   header:"Услуга", width:120},
+				{ id:"id",    header:"#", sort:"string", width:50},
+				{ id:"restaurant",   header:"Наименование заведения", sort:"string", fillspace:true},
+				{ id:"date_from",   header:"От: ", width:120, sort:"string", template: (obj)=>{ return renderDate(obj.date_from); }},
+				{ id:"date_to",   header:"До: ", width:120, sort:"string", template: (obj)=>{ return renderDate(obj.date_to); }},
+				{ id:"service_name",   header:"Услуга", sort:"string", width:120},
+				{ id:"active", header:"Активность", sort:"string", template:"{common.checkbox()}"},
 			],
 			select:"row",
 			resizeColumn:true,
+			on:{
+				onCheck:(row, column, state)=>{
+					this.activeService(row, state);
+				},
+			}
 		};
 
 		let ui = {
@@ -27,6 +33,16 @@ export default class DataRestaurantDonate extends JetView{
 			]
 		}
 		return ui;
+	}
+	activeService(id, state){
+		let active = state ? 1 : 2;
+		webix.ajax(`${base_url}/threeraza/admin/active/service/restaurant/${id}/${active}`).then(
+			res=>{
+				let result = res.json();
+				console.log(result);
+			},
+			rej=>console.log(rej.json(), 'error')
+		);
 	}
 	init(){
 		webix.ajax(`${base_url}/threeraza/admin/list/restaurant/donate`).then(
