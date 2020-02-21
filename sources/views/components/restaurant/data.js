@@ -11,12 +11,12 @@ export default class DataView extends JetView{
 			resizeColumn:true,
 			columns: [
 				{ id:"id",    header:[ "#", { content:"textFilter" } ], width:50},
+				{ id:"link",   header:"Link", sort:"string", width:70, template:(e)=>{
+						//console.log(e);
+						return `<a href="https://3raza.com/#/list/${e.name}/${e.id}/" target="_blank"> <span class="mdi mdi-eye"></span> </a>`;
+					}},
 				{ id:"logo",   header:"", width:50, template:"<img class='datatable_images' src='#logo#' width='34' height='34'/>",},
 				{ id:"name",   header:"Наименование", sort:"string", fillspace:true},
-				{ id:"link",   header:"Просмотр заведения", sort:"string", fillspace:true, template:(e)=>{
-						//console.log(e);
-						return `<a href="https://platform.ru/#/list/${e.name}/${e.id}/"> link </a>`;
-					}},
 				{ id:"city",   header:"Город", sort:"string", width:100},
 				{ id:"address",    header:"Адрес", sort:"string", width:150},
 				{ id:"phone",   header:[ "Телефон", { content:"textFilter" } ], sort:"string", width:140},
