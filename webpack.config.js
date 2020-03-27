@@ -2,7 +2,7 @@ var path = require("path");
 var webpack = require("webpack");
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
-const _dir_name_ = '/var/www/platform/style/listings/js/public';
+const _dir_name_ = '/var/www/3Raza_back/style/listings/js/public';
 
 
 module.exports = function(env) {

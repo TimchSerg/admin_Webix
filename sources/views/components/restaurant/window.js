@@ -1,49 +1,68 @@
+import {basic} from "./component_window/basic";
+import {gallery} from "./component_window/gallery";
+import {menu_list} from "./component_window/menu_list";
+
 let sub_view = (lists)=>{
 	lists.owners.push({id: 0, value: 'Владелец не выбран'});
+	let basic_page = basic(lists);
+	let gallery_page = gallery;
+	let menu_list_page = menu_list;
+	let tabbar_rest = {
+		view: 'tabbar',
+		id:'tabbar_rest',
+		//value:"basic",
+		multiview:true,
+		borderless: true,
+		options:[
+			{value: 'Основное', id:'basic'},
+			{value: 'Галерея и soc.link', id:'gallery'},
+			{value: 'Меню и График раб.', id:'menu_list'},
+		]
+	};
+	let cells = {
+		cells: [
+			basic_page,
+			gallery_page,
+			menu_list_page
+		]
+	}
 	let result = {
 		view: 'form',
 		id: 'form_restaurant',
+		borderless: true,
 		elements: [
-			{view:'text', hidden: true, name: 'id'},
-			{
-				view:"select", name: 'city_id', id:'select_city',
-				label:"Город", labelWidth:170,
-				value:365, options:lists.cities
-			},
-			{
-				view:"select", name: 'category_id',
-				label:"Категория заведения", labelWidth:170,
-				value:3, options:lists.category
-			},
-			{view:"text", value:"",	label:"Наименование", name:'name', labelWidth:170 },
-			{view:"text", value:"",	label:"Телефон заведения", name:'phone', labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}},
-			{view:"text", value:"",	label:"Адрес", name:'address', labelWidth:170 },
-			{view:"text", value:0, label:"Минимальная цена кальяна", name:'min_price_hook', labelWidth:200, pattern:{ mask:"####", allow:/[0-9]/g} },
-			{template:'<hr>', height:1},
-			{
-				view:"select", name: 'owner_id',
-				label:"Владелец", labelWidth:170,
-				 options:lists.owners
-			},
-			{view:"text", label:"Телефон владельца", name:'phone_owner', labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g} },
+			{rows:[
+					{height: 15},
+					{cols:[
+						{width: 15},
+						{rows:[
+								tabbar_rest,
+								cells
+							]},
+						{width: 15},
+					]},
+					{height: 15},
+					{cols:[
+							{view:'button', css:"webix_danger", value: 'Отменить', click: ()=>{
+									$$("win_custom").close();
+								}},
+							{view:'button', css:"webix_primary", value: 'Сохранить', click: ()=>{
+									let values = $$('form_restaurant').getValues();
+									if(values.id == ''){
+										delete values.id;
+										newRestaurant(values);
+									}else {
+										updateRestaurant(values);
+									}
+								}},
 
-			{cols:[
-					{view:'button', css:"webix_danger", value: 'Отменить', click: ()=>{
-							$$("win_custom").close();
-						}},
-					{view:'button', css:"webix_primary", value: 'Сохранить', click: ()=>{
-							let values = $$('form_restaurant').getValues();
-							if(values.id == ''){
-								delete values.id;
-								newRestaurant(values);
-							}else {
-								updateRestaurant(values);
-							}
-						}},
+						]},
 
-				]}
+			]},
+
 		]
-	}
+	};
+
 	return result;
 }
 
