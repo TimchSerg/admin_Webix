@@ -2,6 +2,7 @@ import {JetView} from "webix-jet";
 import DataView from "./restaurant/data.js";
 import OldDataView from "./restaurant/old_data.js";
 import windowDevice from './Windows';
+import {setValueWindow} from './restaurant/controllers/setValueWindow.js';
 import sub_view from './restaurant/window';
 import orderBy from 'lodash.orderby';
 
@@ -91,8 +92,7 @@ export default class Active extends JetView{
 								windowDevice(form, 'Новое заведение');
 
 								if(item != undefined){
-									console.log(item);
-									$$('form_restaurant').setValues(item);
+									setValueWindow(item);
 								}
 							},
 							rej=>{lists.owners = []}

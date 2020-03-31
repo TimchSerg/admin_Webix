@@ -1,3 +1,4 @@
+import {formationDataRestaurant} from '../restaurant/controllers/restaurant_data.js';
 import {basic} from "./component_window/basic";
 import {gallery} from "./component_window/gallery";
 import {menu_list} from "./component_window/menu_list";
@@ -25,7 +26,7 @@ let sub_view = (lists)=>{
 			gallery_page,
 			menu_list_page
 		]
-	}
+	};
 	let result = {
 		view: 'form',
 		id: 'form_restaurant',
@@ -48,11 +49,13 @@ let sub_view = (lists)=>{
 								}},
 							{view:'button', css:"webix_primary", value: 'Сохранить', click: ()=>{
 									let values = $$('form_restaurant').getValues();
-									if(values.id == ''){
-										delete values.id;
-										newRestaurant(values);
-									}else {
-										updateRestaurant(values);
+									if($$('form_restaurant').validate()){
+										if(values.id == ''){
+											delete values.id;
+											newRestaurant(values);
+										}else {
+											updateRestaurant(values);
+										}
 									}
 								}},
 
@@ -60,47 +63,113 @@ let sub_view = (lists)=>{
 
 			]},
 
-		]
+		],
+		rules:{
+			"phone_owner": ()=>{return true;},
+			"name":webix.rules.isNotEmpty,
+			"phone":webix.rules.isNotEmpty,
+			"address":webix.rules.isNotEmpty,
+			"min_price_hook": webix.rules.isNotEmpty,
+		}
 	};
 
 	return result;
-}
+};
 
 function newRestaurant(items){
-	webix.ajax().headers({
-		"Content-type":"application/json"
-	}).post(`${base_url}/threeraza/admin/restaurant/new`, JSON.stringify(items)).then(
-		res=>{
-			let refresh_btn = $$('refresh_btn');
-			refresh_btn.callEvent('onItemClick');
-			$$("win_custom").close();
-		},
-		rej=>console.log(rej)
-	);
+	let restaurant = formationDataRestaurant(items);
+		uploadImages().then(
+			res=>{
+				restaurant.other.images = res;
+			}
+		);
+		uploadLogo().then(
+			res=>{
+				restaurant.other.logo = res;
+				webix.ajax().headers({
+					"Content-type":"application/json"
+				}).post(`${base_url}/post/restaurant/1`, JSON.stringify(restaurant)).then(
+					res=>{
+						let refresh_btn = $$('refresh_btn');
+						refresh_btn.callEvent('onItemClick');
+						$$("win_custom").close();
+					},
+					rej=>console.log(rej)
+				);
+			}
+		);
 }
+
 function updateRestaurant(items){
-	console.log(items);
+	let restaurant = formationDataRestaurant(items);
 	let id = items.id;
-	let custom = {
-		city_id:items.city_id,
-		category_id:items.category_id,
-		name:items.name,
-		phone:items.phone,
-		address:items.address,
-		min_price_hook:items.min_price_hook,
-		owner_id:items.owner_id,
-		phone_owner:items.phone_owner
-	}
-	webix.ajax().headers({
-		"Content-type":"application/json"
-	}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(custom)).then(
+
+	uploadImages().then(
 		res=>{
-			let refresh_btn = $$('refresh_btn');
-			refresh_btn.callEvent('onItemClick');
-			$$("win_custom").close();
-		},
-		rej=>console.log(rej)
+			restaurant.other.images = res;
+		}
+	);
+	uploadLogo().then(
+		res=>{
+			restaurant.other.logo = res;
+			webix.ajax().headers({
+				"Content-type":"application/json"
+			}).post(`${base_url}/post/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
+				res=>{
+					let refresh_btn = $$('refresh_btn');
+					refresh_btn.callEvent('onItemClick');
+					$$("win_custom").close();
+				},
+				rej=>console.log(rej)
+			);
+		}
 	);
 }
+
+function uploadLogo(){
+	let input = document.getElementById('imgInp');
+	let data = new FormData();
+
+	if(input){
+		data.append('logo', input.files[0]);
+	}
+
+	return webix.ajax().post(`${base_url}/restaurant/admin/logo`, data).then(
+		res=>{
+			//console.log(JSON.encode(res));
+			let result = res.json();
+			let path = result.error ? '/files/avatars/default.jpg' : '/files/restaurant/logo/' + result.upload_data.file_name;
+			return path;
+		},
+		rej=>{
+			console.log(rej);
+			return '/files/avatars/default.jpg';
+		}
+	);
+};
+function uploadImages(){
+	let form = document.getElementById('form_multi_image');
+	let data;
+	if(form){
+		data = new FormData(form);
+	}else{
+		data = new FormData();
+	}
+
+
+	return webix.ajax().post(`${base_url}/restaurant/admin/images`, data).then(
+		res=>{
+			try{
+				let result = res.json();
+				return result.error ? [] : result;
+			} catch (e) {
+				return [];
+			}
+		},
+		rej=>{
+			return [];
+		}
+	);
+};
 
 export default sub_view;
