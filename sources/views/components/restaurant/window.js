@@ -109,26 +109,25 @@ function newRestaurant(items){
 function updateRestaurant(items){
 	let restaurant = formationDataRestaurant(items);
 	let id = items.id;
-
+	delete restaurant.id;
 	uploadImages().then(
 		res=>{
-			console.log(res, 'images');
 			restaurant.other.images = res;
-		}
-	);
-	uploadLogo().then(
-		res=>{
-			restaurant.other.logo = res;
-			console.log(restaurant.other.logo, 'test');
-			webix.ajax().headers({
-				"Content-type":"application/json"
-			}).post(`${base_url}/post/restaurant/update/${items.owner_id}`, JSON.stringify(restaurant)).then(
+			uploadLogo().then(
 				res=>{
-					let refresh_btn = $$('refresh_btn');
-					refresh_btn.callEvent('onItemClick');
-					$$("win_custom").close();
-				},
-				rej=>console.log(rej)
+					restaurant.other.logo = res;
+					// restaurant.owner_id = items.owner_id;
+					webix.ajax().headers({
+						"Content-type":"application/json"
+					}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
+						res=>{
+							let refresh_btn = $$('refresh_btn');
+							refresh_btn.callEvent('onItemClick');
+							$$("win_custom").close();
+						},
+						rej=>console.log(rej)
+					);
+				}
 			);
 		}
 	);
