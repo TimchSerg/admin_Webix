@@ -32,9 +32,10 @@ export let multiImages = (type_id)=>{
 	};
 };
 
-
+export let storage_images;
 function readURL(input){
 	let imageShow = document.getElementById('imageShow_multi');
+
 	let result = [];
 	for(var i = 0; i < input.files.length; i++){
 		if (input.files && input.files[i]) {
@@ -53,5 +54,7 @@ function readURL(input){
 			//reader.readAsDataURL(input.files[0]);
 		}
 	}
+
+	storage_images = document.getElementById('form_multi_image');
 }
 

@@ -28,6 +28,7 @@ export let secondImage = (type_id)=>{
 	};
 };
 
+export let storage_logo;
 
 function readURL(input){
 	let imageShow = document.getElementById('imageShow');
@@ -39,5 +40,9 @@ function readURL(input){
 			imageShow.setAttribute('select', 'true')
 		}
 		reader.readAsDataURL(input.files[0]);
+		storage_logo = input.files[0];
+
 	}
 }
+
+

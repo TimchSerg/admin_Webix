@@ -1,14 +1,16 @@
 export let formationDataRestaurant = (item)=>{
 	let res = {
+		id:item.id,
+		phone:item.phone,
+		phone_owner: item.phone_owner,
 		address: item.address,
 		category_id: item.category_id,
 		city_id: item.city_id,
 		description: '',
 		metro: '',
+		//owner_id: item.owner_id,
 		min_price_hook: item.min_price_hook,
 		name: item.name,
-		phone:item.phone,
-		phone_owner: item.phone_owner,
 		other:{
 			images:[],
 			logo:item.logo,
@@ -36,9 +38,7 @@ export let formationDataRestaurant = (item)=>{
 				Saturday: item.Saturday == '' ? 'Выходной' : $$('Saturday').getText(),
 				Sunday: item.Sunday == '' ? 'Выходной' : $$('Sunday').getText(),
 			}
-		},
-		//
-		// owner_id: item.owner_id
+		}
 	};
 	return res;
 };

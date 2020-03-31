@@ -3,6 +3,9 @@ import {basic} from "./component_window/basic";
 import {gallery} from "./component_window/gallery";
 import {menu_list} from "./component_window/menu_list";
 
+import {storage_logo} from "../../../components/uploadImage/components/secondImage";
+import {storage_images} from "../../../components/uploadImage/components/multiImages";
+
 let sub_view = (lists)=>{
 	lists.owners.push({id: 0, value: 'Владелец не выбран'});
 	let basic_page = basic(lists);
@@ -51,7 +54,7 @@ let sub_view = (lists)=>{
 									let values = $$('form_restaurant').getValues();
 									if($$('form_restaurant').validate()){
 										if(values.id == ''){
-											delete values.id;
+											//delete values.id;
 											newRestaurant(values);
 										}else {
 											updateRestaurant(values);
@@ -77,27 +80,30 @@ let sub_view = (lists)=>{
 };
 
 function newRestaurant(items){
+
 	let restaurant = formationDataRestaurant(items);
+	delete restaurant.id;
 		uploadImages().then(
 			res=>{
 				restaurant.other.images = res;
-			}
-		);
-		uploadLogo().then(
-			res=>{
-				restaurant.other.logo = res;
-				webix.ajax().headers({
-					"Content-type":"application/json"
-				}).post(`${base_url}/post/restaurant/1`, JSON.stringify(restaurant)).then(
+				uploadLogo().then(
 					res=>{
-						let refresh_btn = $$('refresh_btn');
-						refresh_btn.callEvent('onItemClick');
-						$$("win_custom").close();
-					},
-					rej=>console.log(rej)
+						restaurant.other.logo = res;
+						webix.ajax().headers({
+							"Content-type":"application/json"
+						}).post(`${base_url}/post/restaurant/1`, JSON.stringify(restaurant)).then(
+							res=>{
+								let refresh_btn = $$('refresh_btn');
+								refresh_btn.callEvent('onItemClick');
+								$$("win_custom").close();
+							},
+							rej=>console.log(rej)
+						);
+					}
 				);
 			}
 		);
+
 }
 
 function updateRestaurant(items){
@@ -106,15 +112,17 @@ function updateRestaurant(items){
 
 	uploadImages().then(
 		res=>{
+			console.log(res, 'images');
 			restaurant.other.images = res;
 		}
 	);
 	uploadLogo().then(
 		res=>{
 			restaurant.other.logo = res;
+			console.log(restaurant.other.logo, 'test');
 			webix.ajax().headers({
 				"Content-type":"application/json"
-			}).post(`${base_url}/post/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
+			}).post(`${base_url}/post/restaurant/update/${items.owner_id}`, JSON.stringify(restaurant)).then(
 				res=>{
 					let refresh_btn = $$('refresh_btn');
 					refresh_btn.callEvent('onItemClick');
@@ -129,9 +137,9 @@ function updateRestaurant(items){
 function uploadLogo(){
 	let input = document.getElementById('imgInp');
 	let data = new FormData();
-
-	if(input){
-		data.append('logo', input.files[0]);
+	console.log(storage_logo);
+	if(true){
+		data.append('logo', storage_logo);
 	}
 
 	return webix.ajax().post(`${base_url}/restaurant/admin/logo`, data).then(
@@ -149,9 +157,10 @@ function uploadLogo(){
 };
 function uploadImages(){
 	let form = document.getElementById('form_multi_image');
+	console.log(storage_images);
 	let data;
-	if(form){
-		data = new FormData(form);
+	if(storage_images){
+		data = new FormData(storage_images);
 	}else{
 		data = new FormData();
 	}
