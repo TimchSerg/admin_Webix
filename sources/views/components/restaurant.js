@@ -90,6 +90,11 @@ export default class Active extends JetView{
 								lists.owners = this.nameToValue(res.json()).filter(i=>i.type == 'Владелец');
 								let form = sub_view(lists);
 								windowDevice(form, 'Новое заведение');
+										let secondShow = $$('secondShow');
+										secondShow.callEvent('onItemClick');
+
+										let multiShow = $$('multiShow');
+										multiShow.callEvent('onItemClick');
 
 								if(item != undefined){
 									setValueWindow(item);

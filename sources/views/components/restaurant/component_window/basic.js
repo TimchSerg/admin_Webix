@@ -3,6 +3,8 @@ import {storage_logo} from "../../../../components/uploadImage/components/second
 import {storage_images} from "../../../../components/uploadImage/components/multiImages";
 
 export let basic =(lists)=>{
+
+
 	let result = {
 		rows:[
 			{view: 'text', name:'id', value:'', hidden: true},
@@ -62,7 +64,6 @@ export let basic =(lists)=>{
 };
 
 
-
 function newRestaurant(items){
 
 	let restaurant = formationDataRestaurant(items);
@@ -72,6 +73,7 @@ function newRestaurant(items){
 			restaurant.other.images = res;
 			uploadLogo().then(
 				res=>{
+
 					restaurant.other.logo = res;
 					webix.ajax().headers({
 						"Content-type":"application/json"
@@ -99,7 +101,7 @@ function updateRestaurant(items){
 		res=>{
 			let result = images.concat(res);
 			restaurant.other.images = result;
-			uploadLogo().then(
+			uploadLogo(restaurant.other.logo).then(
 				res=>{
 					restaurant.other.logo = res;
 					// restaurant.owner_id = items.owner_id;
@@ -119,10 +121,10 @@ function updateRestaurant(items){
 	);
 }
 
-function uploadLogo(){
+function uploadLogo(old){
 	let input = document.getElementById('imgInp');
 	let data = new FormData();
-	console.log(storage_logo);
+
 	if(true){
 		data.append('logo', storage_logo);
 	}
@@ -131,7 +133,7 @@ function uploadLogo(){
 		res=>{
 			//console.log(JSON.encode(res));
 			let result = res.json();
-			let path = result.error ? '/files/avatars/default.jpg' : '/files/restaurant/logo/' + result.upload_data.file_name;
+			let path = result.error ? old : '/files/restaurant/logo/' + result.upload_data.file_name;
 			return path;
 		},
 		rej=>{

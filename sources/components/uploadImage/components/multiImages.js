@@ -1,7 +1,13 @@
+import {storage_logo} from "./secondImage";
+
+export let storage_images;
 export let multiImages = (type_id)=>{
 	return {
 		width: 680,
 		rows:[
+			{view:'button', id:'multiShow', hidden:true, on:{onItemClick: ()=>{
+						storage_images = '';
+					}}},
 			{
 				view: 'dataview',
 				id:'dateview_picture',
@@ -19,6 +25,7 @@ export let multiImages = (type_id)=>{
 				template: `<form id="form_multi_image" enctype="multipart/form-data" method="post"> <label for="imgInpMulti" class="webixtype_base" style="border: 1px solid silver;border-radius: 2px;text-align: center;padding: 4px;width: 98%;display: inline-block;">Загрузить фото</label><input name="files[]" type="file" id="imgInpMulti" min="1" max="9999" name="files[]" multiple hidden/><input name="${type_id}" id="${type_id}" hidden/></form>`,
 				on:{
 					onAfterRender: ()=>{
+
 						let imageInput = document.getElementById('imgInpMulti');
 						imageInput.addEventListener('change', ()=>{
 							readURL(imageInput);
@@ -31,9 +38,8 @@ export let multiImages = (type_id)=>{
 		]
 	};
 };
-
-export let storage_images;
 function readURL(input){
+
 	let imageShow = document.getElementById('imageShow_multi');
 
 	let result = [];
