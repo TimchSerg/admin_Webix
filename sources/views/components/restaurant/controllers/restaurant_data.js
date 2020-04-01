@@ -8,7 +8,7 @@ export let formationDataRestaurant = (item)=>{
 		city_id: item.city_id,
 		description: '',
 		metro: '',
-		//owner_id: item.owner_id,
+		owner_id: item.owner_id,
 		min_price_hook: item.min_price_hook,
 		name: item.name,
 		other:{
@@ -30,13 +30,13 @@ export let formationDataRestaurant = (item)=>{
 				youtube:item.youtube
 			},
 			time_work:{
-				Monday: item.Monday == '' ? 'Выходной' : $$('Monday').getText(),
-				Tuesday: item.Tuesday == '' ? 'Выходной' : $$('Tuesday').getText(),
-				Wednesday: item.Wednesday == '' ? 'Выходной' : $$('Wednesday').getText(),
-				Thursday: item.Thursday == '' ? 'Выходной' : $$('Thursday').getText(),
-				Friday: item.Friday == '' ? 'Выходной' : $$('Friday').getText(),
-				Saturday: item.Saturday == '' ? 'Выходной' : $$('Saturday').getText(),
-				Sunday: item.Sunday == '' ? 'Выходной' : $$('Sunday').getText(),
+				Monday: item.Monday == '' ? 'Выходной' : item.Monday,
+				Tuesday: item.Tuesday == '' ? 'Выходной' : item.Tuesday,
+				Wednesday: item.Wednesday == '' ? 'Выходной' : item.Wednesday,
+				Thursday: item.Thursday == '' ? 'Выходной' : item.Thursday,
+				Friday: item.Friday == '' ? 'Выходной' : item.Friday,
+				Saturday: item.Saturday == '' ? 'Выходной' : item.Saturday,
+				Sunday: item.Sunday == '' ? 'Выходной' : item.Sunday,
 			}
 		}
 	};

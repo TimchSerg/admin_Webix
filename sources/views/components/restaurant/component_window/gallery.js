@@ -28,6 +28,7 @@ export let gallery = {
 				{view:'label', label: 'Галерея изображений для свайпера'},
 				uploadCustomMulti
 		]},
+		{template:'<hr>', height:1},
 		{height:15},
 	]
 };

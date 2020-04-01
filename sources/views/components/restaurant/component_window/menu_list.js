@@ -1,3 +1,5 @@
+import {patternTime} from '../controllers/pattern.js';
+
 export let menu_list = {
 	id:'menu_list',
 	rows:[
@@ -35,26 +37,55 @@ export let menu_list = {
 				{view:'label', label: 'График работы'},
 				{cols: [
 						{rows: [
-								{view:'text', label: 'Пн.', name: 'Monday', id: 'Monday', placeholder:'00:00 - 00:00', pattern:{ mask:"##:## - ##:##", allow:/[0-9]/g}, validate: (v)=>{return true}},
-								{view:'text', label: 'Вт.', name: 'Tuesday', id: 'Tuesday', placeholder:'00:00 - 00:00', pattern:{ mask:"##:## - ##:##", allow:/[0-9]/g}, validate: (v)=>{return true}},
-								{view:'text', label: 'Ср.', name: 'Wednesday', id: 'Wednesday', placeholder:'00:00 - 00:00', pattern:{ mask:"##:## - ##:##", allow:/[0-9]/g}, validate: (v)=>{return true}},
-								{view:'text', label: 'Чт.', name: 'Thursday', id: 'Thursday', placeholder:'00:00 - 00:00', pattern:{ mask:"##:## - ##:##", allow:/[0-9]/g}, validate: (v)=>{return true}},
+								{view:'text', label: 'Пн.', name: 'Monday', id: 'Monday', placeholder:'00:00 - 00:00', on:{
+										onKeyPress:function(code, e){
+											let valid = patternTime(code, this);
+											return valid;
+										}
+									}},
+								{view:'text', label: 'Вт.', name: 'Tuesday', id: 'Tuesday', placeholder:'00:00 - 00:00', on:{
+										onKeyPress:function(code, e){
+											let valid = patternTime(code, this);
+											return valid;
+										}
+									}},
+								{view:'text', label: 'Ср.', name: 'Wednesday', id: 'Wednesday', placeholder:'00:00 - 00:00', on:{
+										onKeyPress:function(code, e){
+											let valid = patternTime(code, this);
+											return valid;
+										}
+									}},
+								{view:'text', label: 'Чт.', name: 'Thursday', id: 'Thursday', placeholder:'00:00 - 00:00', on:{
+										onKeyPress:function(code, e){
+											let valid = patternTime(code, this);
+											return valid;
+										}
+									}},
 							]},
 						{width: 15},
 						{rows: [
-								{view:'text', label: 'Пт.', name: 'Friday', id: 'Friday', placeholder:'00:00 - 00:00', pattern:{ mask:"##:## - ##:##", allow:/[0-9]/g}, validate: (v)=>{return true}},
-								{view:'text', label: 'Сб.', name: 'Saturday', id: 'Saturday', placeholder:'00:00 - 00:00', pattern:{ mask:"##:## - ##:##", allow:/[0-9]/g}, validate: (v)=>{return true}},
-								{view:'text', label: 'Вс.', name: 'Sunday', id: 'Sunday', placeholder:'00:00 - 00:00', pattern:{ mask:"##:## - ##:##", allow:/[0-9]/g}, validate: (v)=>{return true}},
+								{view:'text', label: 'Пт.', name: 'Friday', id: 'Friday', placeholder:'00:00 - 00:00', on:{
+										onKeyPress:function(code, e){
+											let valid = patternTime(code, this);
+											return valid;
+										}
+									}},
+								{view:'text', label: 'Сб.', name: 'Saturday', id: 'Saturday', placeholder:'00:00 - 00:00', on:{
+										onKeyPress:function(code, e){
+											let valid = patternTime(code, this);
+											return valid;
+										}
+									}},
+								{view:'text', label: 'Вс.', name: 'Sunday', id: 'Sunday', placeholder:'00:00 - 00:00', on:{
+										onKeyPress:function(code, e){
+											let valid = patternTime(code, this);
+											return valid;
+										}
+									}},
 							]},
 					]},
+				{template:'<hr>', height:1},
+				{height:15},
 		]}
 	]
 };
-
-function valideTest(e){
-	if(e == ''){
-		return true;
-	}else {
-		return /[0-9]/.test(e);
-	}
-}
