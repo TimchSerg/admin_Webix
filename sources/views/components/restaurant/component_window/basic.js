@@ -124,7 +124,9 @@ function updateRestaurant(items){
 function uploadLogo(old){
 	let input = document.getElementById('imgInp');
 	let data = new FormData();
-
+	if(old == undefined){
+		old = '/files/avatars/default.jpg';
+	};
 	if(true){
 		data.append('logo', storage_logo);
 	}
