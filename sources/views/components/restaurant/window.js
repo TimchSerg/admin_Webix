@@ -36,7 +36,7 @@ let sub_view = (lists)=>{
 		borderless: true,
 		elements: [
 			{rows:[
-					{height: 15},
+					// {height: 15},
 					{cols:[
 						{width: 15},
 						{rows:[

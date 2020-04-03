@@ -25,7 +25,7 @@ export let basic =(lists)=>{
 			{template:'<hr>', height:1},
 			{
 				view:"select", name: 'owner_id',
-				label:"Владелец", labelWidth:170,value: '48',
+				label:"Владелец", labelWidth:170,value: '5',
 				options:lists.owners
 			},
 			{view:"text", label:"Телефон владельца", name:'phone_owner', labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}, validate: (v)=>{return true} },

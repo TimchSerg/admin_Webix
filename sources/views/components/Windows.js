@@ -23,7 +23,7 @@ function windowDevice(sub, label = 'Настройки элемента'){
 		},
 		body: {
 			rows: [
-				{height: 15},
+				{height: 5},
 				{cols: [
 						{width: 15},
 						sub,

@@ -15,20 +15,27 @@ export let gallery = {
 						]},
 						{width: 15},
 						{rows:[
-							{view:'label', label: 'Социальные сети'},
-							{view: 'text', placeholder: 'vkontakte', name: 'vk'},
-							{view: 'text', placeholder: 'instagram', name: 'instagram'},
-							{view: 'text', placeholder: 'facebook', name: 'facebook'},
-							{view: 'text', placeholder: 'twitter', name: 'twitter'},
-							{view: 'text', placeholder: 'youtube', name: 'youtube'},
-							{view: 'text', placeholder: 'telegram', name: 'telegram'},
-						]}
+								{view:'label', label: 'Социальные сети'},
+								{cols:[
+										{rows:[
+												{view: 'text', placeholder: 'vkontakte', name: 'vk'},
+												{view: 'text', placeholder: 'instagram', name: 'instagram'},
+												{view: 'text', placeholder: 'facebook', name: 'facebook'},
+											]},
+										{rows:[
+												{view: 'text', placeholder: 'twitter', name: 'twitter'},
+												{view: 'text', placeholder: 'youtube', name: 'youtube'},
+												{view: 'text', placeholder: 'telegram', name: 'telegram'},
+											]}
+									]},
+							]},
+
+
 				]},
 				{template:'<hr>', height:1},
 				{view:'label', label: 'Галерея изображений для свайпера'},
 				uploadCustomMulti
 		]},
-		{template:'<hr>', height:1},
-		{height:15},
+		{height: 15},
 	]
 };

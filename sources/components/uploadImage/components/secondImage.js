@@ -10,8 +10,8 @@ export let secondImage = (type_id)=>{
 				view: "template",
 				id:'imageShow',
 				template: '<img id="imageShow" class="image_table_CLOSE" src="/files/avatars/default.jpg" alt="Фотография" select="false" style="height: 100%; display: block;margin: 0 auto;"/>',
-				height: 190,
-				width:300,
+				height: 160,
+				width:240,
 				css:{ border: "0px solid #fff !important"}
 			},
 			{

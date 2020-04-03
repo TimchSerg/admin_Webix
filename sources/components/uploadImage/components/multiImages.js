@@ -12,7 +12,7 @@ export let multiImages = (type_id)=>{
 				view: 'dataview',
 				id:'dateview_picture',
 				xCount:3,
-				height: 240,
+				height: 140,
 				type:{
 					height: 125,
 					width: 210,
