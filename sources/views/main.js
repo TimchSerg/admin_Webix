@@ -5,6 +5,7 @@ export default class TopView extends JetView{
 	config(){
 		var menu_data = [
 			{id: "restaurant", icon: "mdi mdi-home-modern", value: "Заведения"},
+			{id: "geolocation", icon: "mdi mdi-briefcase", value:"Геолокация"},
 			{id: "users", icon: "mdi mdi-account-multiple", value:"Пользователи"},
 			{id: "service", icon: "mdi mdi-briefcase", value:"Услуги"},
 		];

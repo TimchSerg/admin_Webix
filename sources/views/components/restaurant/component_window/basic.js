@@ -14,6 +14,11 @@ export let basic =(lists)=>{
 				value:365, options:lists.cities
 			},
 			{
+				view:"select", name: 'metro', id:'select_metro',
+				label:"Метро", labelWidth:170,
+				value:365, options:[], hidden: true
+			},
+			{
 				view:"select", name: 'category_id',
 				label:"Категория заведения", labelWidth:170,
 				value:3, options:lists.category
