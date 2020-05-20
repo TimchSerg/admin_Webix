@@ -1,5 +1,6 @@
 import {formationDataRestaurant} from '../restaurant/controllers/restaurant_data.js';
 import {basic} from "./component_window/basic";
+import {geolocation} from "./component_window/geolocation";
 import {gallery} from "./component_window/gallery";
 import {menu_list} from "./component_window/menu_list";
 
@@ -9,6 +10,7 @@ import {storage_images} from "../../../components/uploadImage/components/multiIm
 let sub_view = (lists)=>{
 	lists.owners.push({id: 0, value: 'Владелец не выбран'});
 	let basic_page = basic(lists);
+	let geolocation_page = geolocation(lists);
 	let gallery_page = gallery;
 	let menu_list_page = menu_list;
 	let tabbar_rest = {
@@ -19,6 +21,7 @@ let sub_view = (lists)=>{
 		borderless: true,
 		options:[
 			{value: 'Основное', id:'basic'},
+			{value: 'Геолокация', id:'geolocation'},
 			{value: 'Галерея и soc.link', id:'gallery'},
 			{value: 'Меню и График раб.', id:'menu_list'},
 		]
@@ -26,6 +29,7 @@ let sub_view = (lists)=>{
 	let cells = {
 		cells: [
 			basic_page,
+			geolocation_page,
 			gallery_page,
 			menu_list_page
 		]
@@ -53,7 +57,7 @@ let sub_view = (lists)=>{
 			"phone_owner": ()=>{return true;},
 			"name":webix.rules.isNotEmpty,
 			"phone":webix.rules.isNotEmpty,
-			"address":webix.rules.isNotEmpty,
+			//"address":webix.rules.isNotEmpty,
 			"min_price_hook": webix.rules.isNotEmpty,
 		}
 	};

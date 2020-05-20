@@ -8,6 +8,7 @@ export let formationDataRestaurant = (item)=>{
 		city_id: item.city_id,
 		description: '',
 		metro: '',
+		//rating:item.rating / 10,
 		owner_id: item.owner_id,
 		min_price_hook: item.min_price_hook,
 		name: item.name,
