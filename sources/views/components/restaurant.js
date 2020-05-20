@@ -25,6 +25,7 @@ export default class Active extends JetView{
 											{ view:"button", id:"edit_btn", type:"icon", icon:"wxi-pencil", disabled: true, on: {
 													onItemClick:()=>{
 														let item  = $$('data_restaurants').getSelectedItem();
+															item.rating = item.rating*10;
 														// item.min_price_hook = Number(item.min_price_hook);
 														this.parseCities(item);
 													}

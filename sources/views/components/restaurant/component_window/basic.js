@@ -21,8 +21,8 @@ export let basic =(lists)=>{
 			{view:"text", value:"",	label:"Наименование", name:'name', labelWidth:170 },
 			{ view:"slider", label:"Рейтинг", value:"0", name:"rating", labelWidth:170,
 				title:(obj)=>{
-					let value = obj.value / 10 / 2;
-					return `Рейтинг по 5 балльной системы ${value}`;
+					let value = obj.value / 10 ;
+					return `Рейтинг по 10 балльной системе ${value}`;
 				}, moveTitle:false},
 			{view:"text", value:"",	label:"Телефон заведения", name:'phone', labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}},
 			// {view:"text", value:"",	label:"Адрес", name:'address', labelWidth:170 },
@@ -102,7 +102,7 @@ function updateRestaurant(items){
 	let restaurant = formationDataRestaurant(items);
 	let id = items.id;
 	delete restaurant.id;
-	console.log(restaurant, 'restaurant');
+
 	uploadImages().then(
 		res=>{
 			let result = images.concat(res);
