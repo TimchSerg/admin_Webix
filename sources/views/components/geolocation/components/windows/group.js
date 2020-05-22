@@ -1,31 +1,21 @@
-let sub_view = (lists)=>{
+let formatWindow = (lists)=>{
 	let result = {
-		view: 'form',
-		id: 'form_add_metro',
+		view: 'form', id: 'form_group',
 		elements: [
 			{view:'text', hidden: true, name: 'id'},
 			{
-				view:"select", name: 'city_id', id:'select_city',
-				label:"Город", labelWidth:190,
+				view:"select", name: 'city_id',
+				label:"Город", labelWidth:120,
 				value:365, options:lists.cities
 			},
-			{
-				view:"select", name: 'group_id',
-				label:"Группа", labelWidth:190,
-				value:1, options:lists.group
-			},
-			{view:"text", value:"",	label:"Наименование ст. Метро", name:'name', labelWidth:190 },
-			{cols:[
-					{view:'text', label: 'lat', name:'lat', value: '0'},
-					{view:'text', label: 'lng', name:'lng', value: '0'},
-				]},
+			{view:"text", value:"",	label:"Наименование:", name:'name', labelWidth:120,  },
 			{cols:[
 					{view:'button', css:"webix_danger", value: 'Отменить', click: ()=>{
 							$$("win_custom").close();
 						}},
 					{view:'button', css:"webix_primary", value: 'Сохранить', click: ()=>{
 							let values = {};
-							$$('form_add_metro').getValues((obj)=>{
+							$$('form_group').getValues((obj)=>{
 								values[obj.data.name] = obj.data.value;
 							});
 							if(values.id == ''){
@@ -35,19 +25,19 @@ let sub_view = (lists)=>{
 								updateElement(values);
 							}
 						}},
-
 				]}
 		]
-	}
+	};
 	return result;
-}
+};
 
 function newElement(items){
+
 	webix.ajax().headers({
 		"Content-type":"application/json"
-	}).post(`${base_url}/metro/post`, JSON.stringify(items)).then(
+	}).post(`${base_url}/group/post`, JSON.stringify(items)).then(
 		res=>{
-			let refresh_btn = $$('refresh_btn');
+			let refresh_btn = $$('group_refresh_btn');
 			refresh_btn.callEvent('onItemClick');
 			$$("win_custom").close();
 		},
@@ -57,13 +47,13 @@ function newElement(items){
 function updateElement(items){
 	webix.ajax().headers({
 		"Content-type":"application/json"
-	}).post(`${base_url}/metro/put/${items.id}`, JSON.stringify(items)).then(
+	}).post(`${base_url}/group/put/${items.id}`, JSON.stringify(items)).then(
 		res=>{
-			let refresh_btn = $$('refresh_btn');
+			let refresh_btn = $$('group_refresh_btn');
 			refresh_btn.callEvent('onItemClick');
 			$$("win_custom").close();
 		},
 		rej=>console.log(rej)
 	);
 }
-export default sub_view;
+export default formatWindow;

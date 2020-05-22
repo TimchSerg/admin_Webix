@@ -1,12 +1,4 @@
 export let geolocation = (lists)=> {
-	var metro_dbllist = {
-		view:"dbllist",
-		id:'metro_dbllist',
-		list:{ height:200, scroll:true },
-		labelLeft:"Список метро",
-		labelRight:"Выбранные метро",
-		data:[]
-	};
 	let coordinates = {
 		cols:[
 			{view:'text', label: 'Широта', name: 'lat', labelPosition:"top", placeholder: '11.111111', pattern:{ mask:"##.######", allow:/[0-9]/g}},
@@ -15,27 +7,38 @@ export let geolocation = (lists)=> {
 	};
 	let datatest = {
 		cols:[
-			{view:'datatable',
-				id:'datatable',
+			{	view:'datatable', id:'list_metro',
 				columns:[
-					{ id:"name",	header:"", css:"Наименование",  width:50},
-					{ id:"city",	header:"Город",width:200, fillspace:true},
+					{ id:"name",	header:"Список метро", css:"", fillspace:true},
+					// { id:"city",	header:"Город",width:200, fillspace:true},
 				],
-				data: [],
-				select:true
+				data: [],select:true
 			},
 			{
 				rows:[
 					{},
-					{rows:[
-							{view:'button', label:'select', on:{
+					{padding: 10, rows:[
+							{view:'button', type:"icon", icon:"mdi mdi-chevron-double-right", width:60, on:{
 								onItemClick:()=>{
+										let select = $$('list_metro').getSelectedItem();
+										if(select){
+											$$('select_metro').add(select);
+											$$('list_metro').remove(select.id);
 
+											return;
+										}
 									}
 								}},
-							{view:'button', label:'unselect', on:{
+							{view:'button', type:"icon", icon:"mdi mdi-chevron-double-left", width:60, on:{
 									onItemClick:()=>{
+										let select = $$('select_metro').getSelectedItem();
 
+										if(select){
+											$$('list_metro').add(select);
+											$$('select_metro').remove(select.id);
+
+											return;
+										}
 									}
 								}},
 						]},
@@ -46,8 +49,8 @@ export let geolocation = (lists)=> {
 				view:'datatable',
 				id:'select_metro',
 				columns:[
-					{ id:"name",	header:"", css:"Наименование",  width:50},
-					{ id:"city",	header:"Город",width:200, fillspace:true},
+					{ id:"name",	header:"Выбранные", css:"",  fillspace:true},
+					// { id:"city",	header:"Город",width:200, fillspace:true},
 				],
 				data: [],
 				select:true
@@ -73,7 +76,6 @@ export let geolocation = (lists)=> {
 			},
 			{view:"text", value:"",	label:"Адрес", name:'address', labelWidth:170 },
 			datatest,
-			//metro_dbllist,
 			{height: 10},
 			coordinates
 		]
@@ -88,8 +90,8 @@ function refreshMetro(city_id){
 		res=>{
 			let result = res.json();
 			console.log(result);
-			$$("datatable").clearAll();
-			$$("datatable").parse(result);
+			$$("list_metro").clearAll();
+			$$("list_metro").parse(result);
 
 		},
 		rej=>console.log(rej.json(), 'error')

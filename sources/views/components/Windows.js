@@ -3,16 +3,13 @@ function windowDevice(sub, label = 'Настройки элемента'){
 		sub = {template: 'Произошла ошибка!'};
 	}
 	let winwdow = {
-		view: 'window',
-		id: 'win_custom',
-		move: false,
-		resize: true,
+		view: 'window',	id: 'win_custom',
+		move: false, resize: true,
 		position: 'center',
 		left: 0, top: 45,
 		fullscreen: false,
 		modal: true,
-		width: 800,
-		minHeight: 600,
+		width: 800,	minHeight: 600,
 		head: {
 			view: "toolbar", cols: [
 				{view: "label", id: 'WindowRender_label', label: label},

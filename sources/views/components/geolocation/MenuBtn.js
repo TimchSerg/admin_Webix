@@ -13,10 +13,10 @@ export class MenuBtn extends JetView{
 									this.parseElement();
 								}
 							}},
-						{ view:"button", id:"edit_btn", type:"icon", icon:"wxi-pencil", disabled: true, on: {
+						{ view:"button", id:"edit_btn", type:"icon", icon:"wxi-pencil", disabled: false, on: {
 								onItemClick:()=>{
 									let item  = $$('data_metro').getSelectedItem();
-									// item.min_price_hook = Number(item.min_price_hook);
+
 									this.parseElement(item);
 								}
 							}},
@@ -25,7 +25,7 @@ export class MenuBtn extends JetView{
 									this.refreshData();
 								}
 							}},
-						{ view:"button", id:"delete_btn", type:"icon", icon:"mdi mdi-delete", disabled: true, on: {
+						{ view:"button", id:"delete_btn", type:"icon", icon:"mdi mdi-delete", disabled: false, on: {
 								onItemClick:()=>{
 									let item  = $$('data_metro').getSelectedItem();
 									let id = item.id;
@@ -54,15 +54,20 @@ export class MenuBtn extends JetView{
 						lists.group = this.nameToValue(res.json());
 						let form = sub_view(lists);
 						windowDevice(form, 'Редактирование элемента');
-						let secondShow = $$('secondShow');
-						secondShow.callEvent('onItemClick');
-
-						let multiShow = $$('multiShow');
-						multiShow.callEvent('onItemClick');
-
-						if(item != undefined){
+						console.log(item);
+						if(item){
+							console.log(item);
 							$$('form_add_metro').setValues(item);
 						}
+						// let secondShow = $$('secondShow');
+						// secondShow.callEvent('onItemClick');
+						//
+						// let multiShow = $$('multiShow');
+						// multiShow.callEvent('onItemClick');
+
+						// if(item != undefined){
+						// 	$$('form_add_metro').setValues(item);
+						// }
 					},
 					rej=>{lists.category = []}
 				)

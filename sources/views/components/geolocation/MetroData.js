@@ -14,13 +14,18 @@ export default class MetroData extends JetView{
 				{ id:"name",   header:"Наименование", sort:"string", fillspace:true},
 			],
 			select:"row",
+			on:{
+				onItemDblClick:()=>{
+					$$('edit_btn').callEvent('onItemClick');
+				}
+			}
 		};
 	}
 	init() {
 		webix.ajax(`${base_url}/metro/get`).then(
 			res=>{
 				let result = res.json();
-
+				console.log(result);
 				$$("data_metro").clearAll();
 				$$("data_metro").parse(result,"json");
 			},

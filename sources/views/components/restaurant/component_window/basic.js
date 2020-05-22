@@ -102,29 +102,29 @@ function updateRestaurant(items){
 	let restaurant = formationDataRestaurant(items);
 	let id = items.id;
 	delete restaurant.id;
-
-	uploadImages().then(
-		res=>{
-			let result = images.concat(res);
-			restaurant.other.images = result;
-			uploadLogo(restaurant.other.logo).then(
-				res=>{
-					restaurant.other.logo = res;
-					// restaurant.owner_id = items.owner_id;
-					webix.ajax().headers({
-						"Content-type":"application/json"
-					}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
-						res=>{
-							let refresh_btn = $$('refresh_btn');
-							refresh_btn.callEvent('onItemClick');
-							$$("win_custom").close();
-						},
-						rej=>console.log(rej)
-					);
-				}
-			);
-		}
-	);
+	console.log(restaurant, 'restaurant');
+	// uploadImages().then(
+	// 	res=>{
+	// 		let result = images.concat(res);
+	// 		restaurant.other.images = result;
+	// 		uploadLogo(restaurant.other.logo).then(
+	// 			res=>{
+	// 				restaurant.other.logo = res;
+	// 				// restaurant.owner_id = items.owner_id;
+	// 				webix.ajax().headers({
+	// 					"Content-type":"application/json"
+	// 				}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
+	// 					res=>{
+	// 						let refresh_btn = $$('refresh_btn');
+	// 						refresh_btn.callEvent('onItemClick');
+	// 						$$("win_custom").close();
+	// 					},
+	// 					rej=>console.log(rej)
+	// 				);
+	// 			}
+	// 		);
+	// 	}
+	// );
 }
 
 function uploadLogo(old){
@@ -151,7 +151,7 @@ function uploadLogo(old){
 	);
 };
 function uploadImages(){
-	console.log(storage_images);
+
 	let data;
 	if(storage_images){
 		data = new FormData(storage_images);
