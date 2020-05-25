@@ -1,4 +1,5 @@
 export let formationDataRestaurant = (item)=>{
+	console.log(item);
 	let res = {
 		id:item.id,
 		phone:item.phone,
@@ -8,11 +9,17 @@ export let formationDataRestaurant = (item)=>{
 		category_id: item.category_id,
 		city_id: item.city_id,
 		description: '',
-		metro: '',
+		metro: JSON.stringify(item.select_metro),
 		owner_id: item.owner_id,
 		min_price_hook: item.min_price_hook,
 		name: item.name,
 		other:{
+			geolocation:{
+				lat:item.lat == '' ? 0 : Number(item.lat),
+				lng:item.lng == '' ? 0 : Number(item.lng),
+				group_id:Number(item.group_id),
+				list_metro: item.select_metro,
+			},
 			images:[],
 			logo:item.logo,
 			menu_other:{

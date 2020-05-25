@@ -41,6 +41,7 @@ export let basic =(lists)=>{
 						}},
 					{view:'button', css:"webix_primary", value: 'Сохранить', click: ()=>{
 							let values = $$('form_restaurant').getValues();
+								values.select_metro = $$('select_metro').serialize();
 							if($$('form_restaurant').validate()){
 								if(values.id == ''){
 									//delete values.id;
@@ -103,28 +104,29 @@ function updateRestaurant(items){
 	let id = items.id;
 	delete restaurant.id;
 	console.log(restaurant, 'restaurant');
-	// uploadImages().then(
-	// 	res=>{
-	// 		let result = images.concat(res);
-	// 		restaurant.other.images = result;
-	// 		uploadLogo(restaurant.other.logo).then(
-	// 			res=>{
-	// 				restaurant.other.logo = res;
-	// 				// restaurant.owner_id = items.owner_id;
-	// 				webix.ajax().headers({
-	// 					"Content-type":"application/json"
-	// 				}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
-	// 					res=>{
-	// 						let refresh_btn = $$('refresh_btn');
-	// 						refresh_btn.callEvent('onItemClick');
-	// 						$$("win_custom").close();
-	// 					},
-	// 					rej=>console.log(rej)
-	// 				);
-	// 			}
-	// 		);
-	// 	}
-	// );
+	uploadImages().then(
+		res=>{
+			let result = images.concat(res);
+			restaurant.other.images = result;
+			uploadLogo(restaurant.other.logo).then(
+				res=>{
+					restaurant.other.logo = res;
+					// restaurant.owner_id = items.owner_id;
+					webix.ajax().headers({
+						"Content-type":"application/json"
+					}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
+						res=>{
+							console.log(res.json(),restaurant, 'res');
+							let refresh_btn = $$('refresh_btn');
+							refresh_btn.callEvent('onItemClick');
+							$$("win_custom").close();
+						},
+						rej=>console.log(rej)
+					);
+				}
+			);
+		}
+	);
 }
 
 function uploadLogo(old){

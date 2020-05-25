@@ -76,10 +76,19 @@ export default class Active extends JetView{
 	parseCities(item){
 
 		let lists = {
-			cities: [],
+			cities:[],
 			category:[],
-			owners: []
-		}
+			owners:[],
+			group:[]
+		};
+		webix.ajax(`${base_url}/group/get`).then(
+			res=>{
+				let group = this.nameToValue(res.json());
+					lists.group = group;
+			},
+			rej=>{console.log(rej);}
+		);
+
 		webix.ajax(`${base_url}/get/cities`).then(
 			res=>{
 				lists.cities = this.nameToValue(res.json());

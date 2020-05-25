@@ -5,14 +5,30 @@ let sub_view = (lists)=>{
 		elements: [
 			{view:'text', hidden: true, name: 'id'},
 			{
-				view:"select", name: 'city_id', id:'select_city',
+				view:"richselect", name: 'city_id', id:'select_city',
 				label:"Город", labelWidth:190,
-				value:365, options:lists.cities
+				value:365, options:lists.cities,
+				on:{
+					onChange:(newv)=>{
+						let newOptions = lists.group.filter((i)=>{
+							return i.city_id == String(newv);
+						});
+
+						$$('group_id').define('options', newOptions);
+						$$('group_id').refresh();
+					}
+				}
 			},
 			{
-				view:"select", name: 'group_id',
+				view:"richselect", name: 'group_id', id:'group_id',
 				label:"Группа", labelWidth:190,
-				value:1, options:lists.group
+				value:1, options:lists.group,
+				on:{
+					onAfterRender:()=>{
+						let list = $$('group_id').getList();
+						console.log(list.config.data);
+					}
+				}
 			},
 			{view:"text", value:"",	label:"Наименование ст. Метро", name:'name', labelWidth:190 },
 			{cols:[

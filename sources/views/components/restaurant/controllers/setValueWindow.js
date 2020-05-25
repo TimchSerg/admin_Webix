@@ -21,4 +21,21 @@ export let setValueWindow = (item)=>{
 	});
 
 	$$('dateview_picture').define('data', images);
+
+
+	if(item.geolocation.length){
+		let geolocation = item.geolocation[0];
+		geolocation.select_metro = JSON.parse(geolocation.list_metro);
+
+		$$('select_metro').clearAll();
+		$$('select_metro').parse(geolocation.select_metro);
+
+		$$('geo_lat').setValue(geolocation.lat);
+		$$('geo_lng').setValue(geolocation.lng);
+
+		let group = geolocation.group_id;
+		webix.storage.local.put('group_id', group);
+	}
+
+	//$$('group_id').setValue(group);
 };
