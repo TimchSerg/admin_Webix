@@ -16,6 +16,10 @@ let sub_view = (lists)=>{
 
 						$$('group_id').define('options', newOptions);
 						$$('group_id').refresh();
+					},
+					onAfterRender:()=>{
+						let item = $$('select_city').getValue();
+						refreshGroup(item, lists);
 					}
 				}
 			},
@@ -32,8 +36,8 @@ let sub_view = (lists)=>{
 			},
 			{view:"text", value:"",	label:"Наименование ст. Метро", name:'name', labelWidth:190 },
 			{cols:[
-					{view:'text', label: 'lat', name:'lat', value: '0'},
-					{view:'text', label: 'lng', name:'lng', value: '0'},
+					{view:'text', label: 'lat', name:'lat', value: '0', placeholder: '11.111111', pattern:{ mask:"##.######", allow:/[0-9]/g}},
+					{view:'text', label: 'lng', name:'lng', value: '0', placeholder: '11.111111', pattern:{ mask:"##.######", allow:/[0-9]/g}},
 				]},
 			{cols:[
 					{view:'button', css:"webix_danger", value: 'Отменить', click: ()=>{
@@ -81,5 +85,13 @@ function updateElement(items){
 		},
 		rej=>console.log(rej)
 	);
+}
+function refreshGroup(item, lists){
+	let newOptions = lists.group.filter((i)=>{
+		return i.city_id == String(item);
+	});
+
+	$$('group_id').define('options', newOptions);
+	$$('group_id').refresh();
 }
 export default sub_view;

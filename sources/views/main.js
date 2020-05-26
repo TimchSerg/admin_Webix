@@ -4,7 +4,13 @@ import logout from '../models/session';
 export default class TopView extends JetView{
 	config(){
 		var menu_data = [
-			{id: "restaurant", icon: "mdi mdi-home-modern", value: "Заведения"},
+			{id: "restaurant", icon: "mdi mdi-home-modern", value: "Заведения",
+				data: [
+					{id: "restaurant.view.main_db", value:"Основная БД"},
+					{id: "restaurant.view.old_db", value:"Старая БД"},
+					{id: "restaurant.view.reviews", value:"Отзывы"},
+				]
+			},
 			{id: "geolocation", icon: "mdi mdi-briefcase", value:"Геолокация"},
 			{id: "users", icon: "mdi mdi-account-multiple", value:"Пользователи"},
 			{id: "service", icon: "mdi mdi-briefcase", value:"Услуги"},
@@ -29,10 +35,13 @@ export default class TopView extends JetView{
 						{
 							view: "sidebar",
 							data: menu_data,
-							width: 200,
+							//width: 200,
 							on:{
 								onAfterSelect: (id) => {
-									this.app.show('/main/components.' + id);
+									console.log(id);
+									if(id != 'restaurant'){
+										this.app.show('/main/components.' + id);
+									}
 								},
 							}
 						},
