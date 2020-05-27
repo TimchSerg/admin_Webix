@@ -1,14 +1,25 @@
 import {JetView} from "webix-jet";
 import groupBy from 'lodash.groupby';
+import formatWindow from "jet-views/components/restaurant/view/windows/winComment";
+import {options} from "jet-views/components/geolocation/DataView";
+import windowDevice from "jet-views/components/Windows";
 //import orderBy from 'lodash.orderby';
 
+let data_comment = [];
 export default class Active extends JetView{
 	config(){
 		let list_city = {
 			view:'list', id:'list_city',
-			template:'#name#',
+			template:'#name#', select:true,
 			width:250,
-			data:[]
+			data:[],
+			on:{
+				onAfterSelect:(id)=>{
+					let select = $$('list_city').getSelectedItem();
+
+					this.refreshComment(select);
+				}
+			}
 		};
 		let datatable = {
 			view:'datatable', id:'reviews_datatable',
@@ -28,6 +39,19 @@ export default class Active extends JetView{
 				onCheck:(row, column, state)=>{
 					this.activeCommit(row, state);
 				},
+				onAfterSelect:()=>{
+					let select = $$('reviews_datatable').getSelectedItem();
+
+					if(select){
+						$$('edit_btn').enable();
+						$$('delete_btn').enable();
+					}
+				},
+				onItemDblClick:()=>{
+					let item  = $$('reviews_datatable').getSelectedItem();
+
+					this.editItem(item);
+				}
 			}
 		};
 		let view = {
@@ -42,11 +66,29 @@ export default class Active extends JetView{
 										}},
 									{view:'resizer'},
 									{rows:[
-											{ view:"button", id:"refresh_btn", type:"icon", icon:"mdi mdi-refresh", disabled: false, on: {
-													onItemClick:()=>{
-														this.refreshData();
-													}
-												}},
+											{cols: [
+													{ view:"button", id:"edit_btn", type:"icon", icon:"wxi-pencil", disabled: true, on: {
+															onItemClick:()=>{
+																let item  = $$('reviews_datatable').getSelectedItem();
+
+																this.editItem(item);
+															}
+														}},
+													{ view:"button", id:"refresh_btn", type:"icon", icon:"mdi mdi-refresh", disabled: false, on: {
+															onItemClick:()=>{
+																this.refreshData();
+															}
+														}},
+													{ view:"button", id:"delete_btn", type:"icon", icon:"mdi mdi-delete", disabled: true, on: {
+															onItemClick:()=>{
+																let item  = $$('reviews_datatable').getSelectedItem();
+																let id = item.id;
+																let name = item.name;
+
+																this.deleteItem(id, name);
+															}
+														}}
+												]},
 											datatable
 										]}
 								]}
@@ -55,6 +97,14 @@ export default class Active extends JetView{
 			]
 		};
 		return view;
+	}
+	editItem(item){
+		if(item){
+			let form = formatWindow(item);
+			windowDevice(form, 'Редактирование комментария');
+
+			//$$('form_comment').setValues(item);
+		}
 	}
 	refreshData(){
 		webix.ajax(`${base_url}/get/admin/comment`).then(
@@ -76,14 +126,31 @@ export default class Active extends JetView{
 					};
 					list_city.push(item);
 				}
+
 				$$("list_city").clearAll();
 				$$("list_city").parse(list_city);
 
 				$$("reviews_datatable").clearAll();
 				$$("reviews_datatable").parse(result);
+				data_comment = result;
 			},
 			rej=>console.log(rej.json(), 'error')
 		);
+	}
+	deleteItem(id, name){
+		webix.confirm({
+			ok: "Да", cancel: "Нет",
+			type: "confirm-error",  width: "400px",
+			title: "Удалить элемент ?", text: '',
+			callback: (result)=>{
+				if(result){
+					webix.ajax(`${base_url}/delete/admin/comment/${id}`).then(
+						res=>this.refreshData(),
+						rej=>console.log('error', rej)
+					);
+				}
+			}
+		})
 	}
 	activeCommit(id, state){
 		let active = state ? 1 : 2;
@@ -94,6 +161,13 @@ export default class Active extends JetView{
 			},
 			rej=>console.log(rej.json(), 'error')
 		);
+	}
+	refreshComment(select){
+		let filter = data_comment.filter((i)=>{
+			return i.city_name == select.name;
+		});
+		$$("reviews_datatable").clearAll();
+		$$("reviews_datatable").parse(filter);
 	}
 	init(_$view, _$) {
 		this.refreshData();

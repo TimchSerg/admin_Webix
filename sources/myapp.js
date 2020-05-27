@@ -9,7 +9,7 @@ export default class MyApp extends JetApp{
 			version : VERSION,
 			router 	: BUILD_AS_MODULE ? EmptyRouter : HashRouter,
 			debug 	: !PRODUCTION,
-			start 	: "/main/components.restaurant"
+			start 	: "/main/components.restaurant.view.main_db"
 		};
 
 		super({ ...defaults, ...config });
