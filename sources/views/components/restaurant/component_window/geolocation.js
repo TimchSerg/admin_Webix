@@ -65,7 +65,8 @@ export let geolocation = (lists)=> {
 				value:365, options:lists.cities, on:{
 					onChange:(newv)=>{
 						refreshGroup(newv, lists);
-						refreshMetro(newv);
+						let value = webix.storage.local.get('group_id');
+						refreshMetro(newv, value);
 
 						$$('select_metro').clearAll();
 
@@ -73,8 +74,9 @@ export let geolocation = (lists)=> {
 					},
 					onAfterRender:()=>{
 						let item = $$('select_city').getValue();
+						let value = webix.storage.local.get('group_id');
 						refreshGroup(item, lists);
-						refreshMetro(item);
+						refreshMetro(item, value);
 					}
 				}
 			},
@@ -84,9 +86,17 @@ export let geolocation = (lists)=> {
 				value:1, options:lists.group,
 				on:{
 					onAfterRender:()=>{
-						let list = $$('group_id').getList();
 						let value = webix.storage.local.get('group_id');
 						$$('group_id').setValue(value);
+					},
+					onChange:(newv)=>{
+						let value = webix.storage.local.get('group_id');
+						if(newv != value){
+							$$("select_metro").clearAll();
+						}
+						let item = $$('select_city').getValue();
+						refreshMetro(item,newv);
+
 					}
 				}
 			},
@@ -100,14 +110,16 @@ export let geolocation = (lists)=> {
 };
 
 
-function refreshMetro(city_id){
-	console.log(city_id);
+function refreshMetro(city_id, group){
 	webix.ajax(`${base_url}/metro/get_by_city/${city_id}`).then(
 		res=>{
 			let result = res.json();
-			console.log(result);
+			let filter = result.filter((i)=>{
+				return i.group_id == group;
+			});
+			console.log(filter);
 			$$("list_metro").clearAll();
-			$$("list_metro").parse(result);
+			$$("list_metro").parse(filter);
 
 			refreshTable();
 		},
@@ -129,7 +141,7 @@ function refreshTable(){
 	let select = $$('select_metro').serialize();
 	for (let i = 0; i < select.length; i++){
 		var elemPosition = list.map((i)=> { return i.id; }).indexOf(select[i].id);
-		console.log(elemPosition, select[i].id);
+
 		if(elemPosition != '-1'){ list.splice(elemPosition, 1);}
 	}
 	console.log(list, select);
