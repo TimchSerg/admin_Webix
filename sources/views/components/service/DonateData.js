@@ -100,10 +100,8 @@ export default class DonateData extends JetView{
 	refreshData(){
 		webix.ajax(`${base_url}/threeraza/admin/list/donate`).then(
 			res=>{
-
 				$$("list_donate").clearAll();
 				$$("list_donate").parse(res.json(),"json");
-
 			},
 			rej=>console.log(rej.json(), 'error')
 		);
