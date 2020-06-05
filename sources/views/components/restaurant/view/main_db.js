@@ -134,6 +134,6 @@ export default class Active extends JetView{
 					);
 				}
 			}
-		})
+		});
 	}
 }

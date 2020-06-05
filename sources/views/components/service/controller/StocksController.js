@@ -27,16 +27,54 @@ export default class StocksController extends JetView{
 				}
 			);
 		});
-
 	}
 	post(data, table){
 		console.log(data, table, 'post');
+		data.type_id = Number(data.type_id);
+		return new Promise((resolve, reject) => {
+			webix.ajax().headers({
+				"Content-type":"application/json"
+			}).post(`${base_url}/post/stocks/${table}`, JSON.stringify(data)).then(
+				res=>{
+					let result = res.json();
+					resolve(result);
+				},
+				rej=> {
+					reject(rej.json());
+				}
+			);
+		});
 	}
 	put(data, table){
 		console.log(data, table, 'put');
+		data.type_id = Number(data.type_id);
+		return new Promise((resolve, reject) => {
+			webix.ajax().headers({
+				"Content-type":"application/json"
+			}).post(`${base_url}/put/stocks/${table}`, JSON.stringify(data)).then(
+				res=>{
+					let result = res.json();
+					resolve(result);
+				},
+				rej=> {
+					reject(rej.json());
+				}
+			);
+		});
 	}
-	delete(data, table){
-		console.log(data, table, 'delete');
+	delete(id, table){
+		console.log(id, table, 'delete');
+		return new Promise((resolve, reject) => {
+			webix.ajax(`${base_url}/delete/stocks/${id}/${table}`).then(
+				res=>{
+					let result = res.json();
+					resolve(result);
+				},
+				rej=> {
+					reject(rej.json());
+				}
+			);
+		});
 	}
 	activeItem(row, state){
 		console.log(row, state, 'activeItem');

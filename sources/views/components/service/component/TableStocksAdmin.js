@@ -45,7 +45,7 @@ export default class TableStocksAdmin extends MenuController{
 						this.activeItem(row, state);
 					},
 					onItemDblClick:()=>{
-						let item  = $$('list_donate').getSelectedItem();
+						let item  = $$('table_stocks').getSelectedItem();
 						this.update(item);
 					}
 				}

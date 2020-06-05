@@ -13,21 +13,21 @@ export default class Menu extends MenuController{
 							}},
 						{ view:"button", id:"edit_btn", type:"icon", icon:"wxi-pencil", disabled: true, on:{
 								onItemClick:()=>{
-									let item  = $$('list_donate').getSelectedItem();
+									let item  = $$('table_stocks').getSelectedItem();
 									// item.min_price_hook = Number(item.min_price_hook);
-									this.update(item);
+									if(item) this.update(item);
 								}
 							}},
 						{ view:"button", id:"refresh_btn", type:"icon", icon:"mdi mdi-refresh", disabled: false, on: {
 								onItemClick:()=>{
-									this.refresh('stocks_item_admin');
+									this.refresh('item_admin');
 								}
 							}},
 						{ view:"button", id:"delete_btn", type:"icon", icon:"mdi mdi-delete", disabled: true, on: {
 								onItemClick:()=>{
-									let item  = $$('list_donate').getSelectedItem();
+									let item  = $$('table_stocks').getSelectedItem();
 
-									this.delete(item.id, 'stocks_item_admin');
+									if(item) this.deleteItem(item.id, 'item_admin');
 								}
 							}},
 					]

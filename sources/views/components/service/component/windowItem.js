@@ -1,10 +1,10 @@
-import {JetView} from "webix-jet";
+import StocksController from "jet-views/components/service/controller/StocksController";
 import {config} from "jet-views/components/service/data";
 import Position from "jet-views/components/service/component/window/Position";
 import QrCode from "jet-views/components/service/component/window/QrCode";
 import Marketing from "jet-views/components/service/component/window/Marketing";
 
-export default class windowItem extends JetView{
+export default class windowItem extends StocksController{
 	config(){
 		let ui = {
 			view: 'window',	id: 'win_custom',
@@ -69,8 +69,26 @@ export default class windowItem extends JetView{
 
 			if(!Object.keys(data_form_stock).length) return;
 
-			data.data = data_form_stock;
+			data.parameters = data_form_stock;
 			console.log(data);
+			if(data.id == ''){
+				delete data.id;
+				this.post(data, 'item_admin').then(
+					res=> {
+						$$("refresh_btn").callEvent("onItemClick");
+						$$("win_custom").close();
+					},
+					rej=>console.log('error', rej)
+				);
+			}else{
+				this.put(data, 'item_admin').then(
+					res=> {
+						$$("refresh_btn").callEvent("onItemClick");
+						$$("win_custom").close();
+					},
+					rej=>console.log('error', rej)
+				);
+			}
 		};
 	}
 	showForm(id){
