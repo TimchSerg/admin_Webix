@@ -7,61 +7,69 @@ export let basic =(lists)=>{
 
 	let result = {
 		rows:[
-			{view: 'text', name:'id', value:'', hidden: true},
+			{view: "text", name:"id", value:"", hidden: true},
 			// {
 			// 	view:"select", name: 'city_id', id:'select_city',
 			// 	label:"Город", labelWidth:170,
 			// 	value:365, options:lists.cities
 			// },
 			{
-				view:"select", name: 'category_id',
+				view:"select", name: "category_id",
 				label:"Категория заведения", labelWidth:170,
 				value:3, options:lists.category
 			},
-			{view:"text", value:"",	label:"Наименование", name:'name', labelWidth:170 },
+			{view:"text", value:"",	label:"Наименование", name:"name", labelWidth:170 },
 			{ view:"slider", label:"Рейтинг", value:"0", name:"rating", labelWidth:170,
 				title:(obj)=>{
 					let value = obj.value / 10 ;
 					return `Рейтинг по 10 балльной системе ${value}`;
 				}, moveTitle:false},
-			{view:"text", value:"",	label:"Телефон заведения", name:'phone', labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}},
+			{id:"phone_array", rows:[
+				{cols:[
+					{view:"text", value:"",	label:"Телефон заведения", name:"phone", labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}},
+					{view: "button", label: "+", width: 20, click:()=>{
+						let inputPhone = {view:"text", value:"", label:"Доп. телефон", name:"dop_phone", labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}};
+						$$("phone_array").addView(inputPhone, 2);
+					}}
+				]},
+			]},
 			// {view:"text", value:"",	label:"Адрес", name:'address', labelWidth:170 },
-			{view:"text", value:0, label:"Минимальная цена кальяна", name:'min_price_hook', labelWidth:200, pattern:{ mask:"####", allow:/[0-9]/g}, validate: (v)=>{return v.length ? true : false;} },
-			{template:'<hr>', height:1},
+			{view:"text", value:0, label:"Минимальная цена кальяна", name:"min_price_hook", labelWidth:200, pattern:{ mask:"####", allow:/[0-9]/g}, validate: (v)=>{return v.length ? true : false;} },
+			{template:"<hr>", height:1},
 			{
-				view:"select", name: 'owner_id',
-				label:"Владелец", labelWidth:170,value: '5',
+				view:"select", name: "owner_id",
+				label:"Владелец", labelWidth:170,value: "5",
 				options:lists.owners
 			},
-			{view:"text", label:"Телефон владельца", name:'phone_owner', labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}, validate: (v)=>{return true} },
+			{view:"text", label:"Телефон владельца", name:"phone_owner", labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}, validate: (v)=>{return true;} },
 			{height: 15},
 			{cols:[
-					{view:'button', css:"webix_danger", value: 'Отменить', click: ()=>{
-							$$("win_custom").close();
-						}},
-					{view:'button', css:"webix_primary", value: 'Сохранить', click: ()=>{
-							let values = $$('form_restaurant').getValues();
-								values.select_metro = $$('select_metro').serialize();
-							if($$('form_restaurant').validate()){
-								if(values.id == ''){
-									//delete values.id;
-									newRestaurant(values);
-								}else {
-									updateRestaurant(values);
-								}
-							}
-						}},
+				{view:"button", css:"webix_danger", value: "Отменить", click: ()=>{
+					$$("win_custom").close();
+				}},
+				{view:"button", css:"webix_primary", value: "Сохранить", click: ()=>{
+					let values = $$("form_restaurant").getValues();
+					values.select_metro = $$("select_metro").serialize();
+					if($$("form_restaurant").validate()){
+						if(values.id == ""){
+							//delete values.id;
+							newRestaurant(values);
+						}else {
+							updateRestaurant(values);
+						}
+					}
+				}},
 
-				]},
+			]},
 
-			{template:'<hr>', height:1},
+			{template:"<hr>", height:1},
 			{height:15}
 
 		]
 	};
 
 	return {
-		id:'basic',
+		id:"basic",
 		rows:[
 			{height: 15},
 			result
@@ -85,8 +93,8 @@ function newRestaurant(items){
 						"Content-type":"application/json"
 					}).post(`${base_url}/post/restaurant/${restaurant.owner_id}`, JSON.stringify(restaurant)).then(
 						res=>{
-							let refresh_btn = $$('refresh_btn');
-							refresh_btn.callEvent('onItemClick');
+							let refresh_btn = $$("refresh_btn");
+							refresh_btn.callEvent("onItemClick");
 							$$("win_custom").close();
 						},
 						rej=>console.log(rej)
@@ -103,7 +111,7 @@ function updateRestaurant(items){
 	let restaurant = formationDataRestaurant(items);
 	let id = items.id;
 	delete restaurant.id;
-	console.log(restaurant, 'restaurant');
+	console.log(restaurant, "restaurant");
 	uploadImages().then(
 		res=>{
 			let result = images.concat(res);
@@ -116,9 +124,9 @@ function updateRestaurant(items){
 						"Content-type":"application/json"
 					}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
 						res=>{
-							console.log(res.json(),restaurant, 'res');
-							let refresh_btn = $$('refresh_btn');
-							refresh_btn.callEvent('onItemClick');
+							console.log(res.json(),restaurant, "res");
+							let refresh_btn = $$("refresh_btn");
+							refresh_btn.callEvent("onItemClick");
 							$$("win_custom").close();
 						},
 						rej=>console.log(rej)
@@ -130,28 +138,28 @@ function updateRestaurant(items){
 }
 
 function uploadLogo(old){
-	let input = document.getElementById('imgInp');
+	let input = document.getElementById("imgInp");
 	let data = new FormData();
 	if(old == undefined){
-		old = '/files/avatars/default.jpg';
-	};
+		old = "/files/avatars/default.jpg";
+	}
 	if(true){
-		data.append('logo', storage_logo);
+		data.append("logo", storage_logo);
 	}
 
 	return webix.ajax().post(`${base_url}/restaurant/admin/logo`, data).then(
 		res=>{
 			//console.log(JSON.encode(res));
 			let result = res.json();
-			let path = result.error ? old : '/files/restaurant/logo/' + result.upload_data.file_name;
+			let path = result.error ? old : "/files/restaurant/logo/" + result.upload_data.file_name;
 			return path;
 		},
 		rej=>{
 			console.log(rej);
-			return '/files/avatars/default.jpg';
+			return "/files/avatars/default.jpg";
 		}
 	);
-};
+}
 function uploadImages(){
 
 	let data;
@@ -175,6 +183,6 @@ function uploadImages(){
 			return [];
 		}
 	);
-};
+}
 
 
