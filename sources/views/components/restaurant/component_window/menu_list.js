@@ -8,10 +8,27 @@ export let menu_list = {
 				{view:'label', label: 'Меню заведения'},
 				{cols: [
 						{rows: [
+								{view: 'label', label: 'Пробковый сбор'},
+								{view: 'radio', name: 'cork', value:'1', options:[
+										{value: 'Да', id: 1},
+										{value: 'Нет', id: 2},
+									]},
+							]},
+						{rows: [
+								{view: 'label', label: 'Шоу программа'},
+								{view: 'radio', name: 'show', value:'1', options:[
+										{value: 'Есть', id: 1},
+										{value: 'Нету', id: 2},
+									]},
+							]},
+				]},
+				{cols: [
+						{rows: [
 							{view: 'label', label: 'Кухня'},
 							{view: 'radio', name: 'foot', value:'1', options:[
 									{value: 'Есть', id: 1},
 									{value: 'Нету', id: 2},
+									{value: 'Можно со своим', id: 3},
 							]},
 						]},
 						{view: 'template', borderless:true, width: 10, template:'<span style="font-size: 14px">|</span>', hidden:true},
@@ -20,6 +37,7 @@ export let menu_list = {
 								{view: 'radio', name: 'drinks', value:'1', options:[
 										{value: 'Есть', id: 1},
 										{value: 'Нету', id: 2},
+										{value: 'Можно со своим', id: 3},
 									]},
 						]},
 						{rows: [

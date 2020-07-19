@@ -3,9 +3,11 @@ export let formationDataRestaurant = (item)=>{
 	let res = {
 		id:item.id,
 		phone:item.phone,
+		add_phone:item.add_phone,
 		rating:item.rating / 10,
 		phone_owner: item.phone_owner,
 		address: item.address,
+		entry:item.entry,
 		category_id: item.category_id,
 		city_id: item.city_id,
 		description: '',
@@ -26,6 +28,8 @@ export let formationDataRestaurant = (item)=>{
 				alcohol: item.alcohol,
 				drinks: item.drinks,
 				foot: item.foot,
+				cork:item.cork,
+				show:item.show,
 				hookah: [],
 				tobacco:[]
 			},

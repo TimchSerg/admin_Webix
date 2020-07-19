@@ -101,6 +101,7 @@ export let geolocation = (lists)=> {
 				}
 			},
 			{view:"text", value:"",	label:"Адрес", name:'address', labelWidth:170 },
+			{view:"text", value:"",	label:"Вход/Этаж", name:'entry', labelWidth:170 },
 			datatest,
 			{height: 10},
 			coordinates

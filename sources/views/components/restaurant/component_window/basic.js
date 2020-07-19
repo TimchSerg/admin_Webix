@@ -1,6 +1,7 @@
 import {formationDataRestaurant} from "jet-views/components/restaurant/controllers/restaurant_data";
 import {storage_logo} from "../../../../components/uploadImage/components/secondImage";
 import {storage_images} from "../../../../components/uploadImage/components/multiImages";
+import {patternTime} from "jet-views/components/restaurant/controllers/pattern";
 
 export let basic =(lists)=>{
 
@@ -24,15 +25,8 @@ export let basic =(lists)=>{
 					let value = obj.value / 10 ;
 					return `Рейтинг по 10 балльной системе ${value}`;
 				}, moveTitle:false},
-			{id:"phone_array", rows:[
-				{cols:[
-					{view:"text", value:"",	label:"Телефон заведения", name:"phone", labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}},
-					{view: "button", label: "+", width: 20, click:()=>{
-						let inputPhone = {view:"text", value:"", label:"Доп. телефон", name:"dop_phone", labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}};
-						$$("phone_array").addView(inputPhone, 2);
-					}}
-				]},
-			]},
+			{view:"text", value:"",	label:"Телефон заведения", name:"phone", labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}},
+			{view:"text", value:"", label:"Доп. телефон", name:"add_phone", labelWidth:170, pattern:{ mask:"+#(###)###-##-##", allow:/[0-9]/g}, validate:()=>{return true;}},
 			// {view:"text", value:"",	label:"Адрес", name:'address', labelWidth:170 },
 			{view:"text", value:0, label:"Минимальная цена кальяна", name:"min_price_hook", labelWidth:200, pattern:{ mask:"####", allow:/[0-9]/g}, validate: (v)=>{return v.length ? true : false;} },
 			{template:"<hr>", height:1},
@@ -49,6 +43,7 @@ export let basic =(lists)=>{
 				}},
 				{view:"button", css:"webix_primary", value: "Сохранить", click: ()=>{
 					let values = $$("form_restaurant").getValues();
+						console.log(values);
 					values.select_metro = $$("select_metro").serialize();
 					if($$("form_restaurant").validate()){
 						if(values.id == ""){
