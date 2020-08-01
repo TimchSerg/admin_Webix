@@ -36,7 +36,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "git-flow": "^0.2.0",
     "lodash.groupby": "^4.6.0",
     "lodash.orderby": "^4.6.0",
     "moment": "^2.24.0",
