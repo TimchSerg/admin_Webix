@@ -49,12 +49,22 @@ export let menu_list = {
 									]},
 							]},
 				]},
-
 				{height: 7},
 				{template:'<hr>', height:1},
 				{height: 7},
 				{view:'label', label: 'График работы'},
-				{cols: [
+				{view:'checkbox', name:'around', label:"Круглосуточно", value:0, labelWidth:140, on: {
+						onChange:function(){
+							let value = this.getValue();
+							if(value){
+								$$('time_work_panel').disable();
+							}else {
+								$$('time_work_panel').enable();
+							};
+						}
+					}},
+				{	id:'time_work_panel',
+					cols: [
 						{rows: [
 								{view:'text', label: 'Пн.', name: 'Monday', id: 'Monday', placeholder:'00:00 - 00:00', on:{
 										onKeyPress:function(code, e){

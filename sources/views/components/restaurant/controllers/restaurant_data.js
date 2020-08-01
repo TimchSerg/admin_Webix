@@ -42,13 +42,14 @@ export let formationDataRestaurant = (item)=>{
 				youtube:item.youtube
 			},
 			time_work:{
-				Monday: item.Monday == '' ? 'Выходной' : item.Monday,
-				Tuesday: item.Tuesday == '' ? 'Выходной' : item.Tuesday,
-				Wednesday: item.Wednesday == '' ? 'Выходной' : item.Wednesday,
-				Thursday: item.Thursday == '' ? 'Выходной' : item.Thursday,
-				Friday: item.Friday == '' ? 'Выходной' : item.Friday,
-				Saturday: item.Saturday == '' ? 'Выходной' : item.Saturday,
-				Sunday: item.Sunday == '' ? 'Выходной' : item.Sunday,
+				Monday: item.around ? '00:00 - 23:59' : item.Monday == '' ? 'Выходной' : item.Monday,
+				Tuesday: item.around ? '00:00 - 23:59' : item.Tuesday == '' ? 'Выходной' : item.Tuesday,
+				Wednesday: item.around ? '00:00 - 23:59' : item.Wednesday == '' ? 'Выходной' : item.Wednesday,
+				Thursday: item.around ? '00:00 - 23:59' : item.Thursday == '' ? 'Выходной' : item.Thursday,
+				Friday: item.around ? '00:00 - 23:59' : item.Friday == '' ? 'Выходной' : item.Friday,
+				Saturday: item.around ? '00:00 - 23:59' : item.Saturday == '' ? 'Выходной' : item.Saturday,
+				Sunday: item.around ? '00:00 - 23:59' : item.Sunday == '' ? 'Выходной' : item.Sunday,
+				around: item.around
 			}
 		}
 	};
