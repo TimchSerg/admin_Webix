@@ -47,4 +47,8 @@ function readURL(input){
 	}
 }
 
+export function clearStorage(){
+	storage_logo = null;
+}
+
 

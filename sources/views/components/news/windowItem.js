@@ -1,7 +1,7 @@
 import StocksController from "jet-views/components/service/controller/StocksController";
 import {Jodit} from "jodit";
 import {uploadImages} from "../../../components/uploadImage/uploadImages";
-import {storage_logo} from "../../../components/uploadImage/components/secondImage";
+import {storage_logo, clearStorage} from "../../../components/uploadImage/components/secondImage";
 
 export var editor = null;
 let uploadCustom = uploadImages('second', 'foto');
@@ -46,15 +46,19 @@ export default class windowItem extends StocksController{
 					cols: [
 						{
 							view: "button", css: "webix_danger", value: "Отменить", click: () => {
-								$$("win_custom").close();
+								this.close();
 							}
 						},
 						{
 							view: "button", css: "webix_primary", value: "Сохранить", click: () => {
 								let values = $$("form_news").getValues();
 									values.html_code = String(editor.value);
+								if(values.id != ''){
+									this.updateNews(values);
+								}else{
+									this.createNews(values);
+								}
 
-								this.createNews(values);
 							}
 						},
 
@@ -73,7 +77,7 @@ export default class windowItem extends StocksController{
 					{view: "label", id: 'WindowRender_label', label: 'Настройки элемента'},
 					{
 						view: "icon", icon: "mdi mdi-close", click: () => {
-							$$("win_custom").close();
+							this.close();
 						}
 					},
 				],
@@ -87,6 +91,42 @@ export default class windowItem extends StocksController{
 		};
 		return ui;
 	}
+	updateNews(news){
+		delete news.logo;
+
+		if(storage_logo){
+			this.uploadLogo().then(
+				res=>{
+					news.h_image = res;
+					webix.ajax().headers({
+						"Content-type":"application/json"
+					}).post(`${base_url}/news/put/${news.id}`, JSON.stringify(news)).then(
+						res=>{
+							let refresh_btn = $$("refresh_btn");
+							refresh_btn.callEvent("onItemClick");
+							$$("win_custom").close();
+						},
+						rej=>console.log(rej)
+					);
+				}
+			).catch(e=>{
+					console.log(e)
+				}
+			)
+		}else{
+			webix.ajax().headers({
+				"Content-type":"application/json"
+			}).post(`${base_url}/news/put/${news.id}`, JSON.stringify(news)).then(
+				res=>{
+					let refresh_btn = $$("refresh_btn");
+					refresh_btn.callEvent("onItemClick");
+					$$("win_custom").close();
+				},
+				rej=>console.log(rej)
+			);
+		}
+
+	}
 	createNews(news){
 		delete news.id;
 		delete news.logo;
@@ -98,10 +138,10 @@ export default class windowItem extends StocksController{
 					"Content-type":"application/json"
 				}).post(`${base_url}/news/new`, JSON.stringify(news)).then(
 					res=>{
-						console.log(res.json(),news, "res");
-						// let refresh_btn = $$("refresh_btn");
-						// refresh_btn.callEvent("onItemClick");
-						// $$("win_custom").close();
+						let refresh_btn = $$("refresh_btn");
+						refresh_btn.callEvent("onItemClick");
+
+						this.close();
 					},
 					rej=>console.log(rej)
 				);
@@ -134,6 +174,10 @@ export default class windowItem extends StocksController{
 				return "/files/avatars/default.jpg";
 			}
 		);
+	}
+	close(){
+		clearStorage();
+		$$("win_custom").close();
 	}
 	showWindow(){
 		this.getRoot().show();

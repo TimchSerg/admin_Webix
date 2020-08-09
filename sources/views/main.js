@@ -13,7 +13,7 @@ export default class TopView extends JetView{
 			},
 			{id: "geolocation", icon: "mdi mdi-briefcase", value:"Геолокация"},
 			{id: "users", icon: "mdi mdi-account-multiple", value:"Пользователи"},
-			{id: "news", icon: "mdi mdi-account-multiple", value:"Новости"},
+			{id: "news", icon: "mdi mdi-newspaper", value:"Новости"},
 			{id: "service", icon: "mdi mdi-briefcase", value:"Услуги"},
 		];
 		var logout_btn = { view:"button", type:"icon", icon:"mdi mdi-exit-to-app", click: () => this.show("/logout") };

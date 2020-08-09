@@ -106,7 +106,7 @@ function updateRestaurant(items){
 	let restaurant = formationDataRestaurant(items);
 	let id = items.id;
 	delete restaurant.id;
-	console.log(restaurant, "restaurant");
+
 	uploadImages().then(
 		res=>{
 			let result = images.concat(res);
@@ -119,7 +119,6 @@ function updateRestaurant(items){
 						"Content-type":"application/json"
 					}).post(`${base_url}/threeraza/admin/restaurant/update/${id}`, JSON.stringify(restaurant)).then(
 						res=>{
-							console.log(res.json(),restaurant, "res");
 							let refresh_btn = $$("refresh_btn");
 							refresh_btn.callEvent("onItemClick");
 							$$("win_custom").close();
