@@ -1,11 +1,23 @@
 import {JetView} from "webix-jet";
 import {renderPhone, renderDate} from '../../controllers/functions';
+import windowItem from "./windowItem";
+import groupBy from "lodash.groupby";
 
 export default class Owner extends JetView{
 	config(){
 		let controlPanel = {height: 50, cols: [
 					{width: 150, cols:[
+							{ view:"button", id:"add_btn", type:"icon", icon:"mdi mdi-plus", on:{
+									onItemClick: ()=>{
+										this.ui(windowItem).showWindow();
+									}
+								}},
 							{ view:"button", id:"edit_btn", type:"icon", icon:"wxi-pencil", disabled: true},
+							{ view:"button", id:"refresh_btn", type:"icon", icon:"mdi mdi-refresh", disabled: false, on: {
+									onItemClick:()=>{
+										this.refreshData();
+									}
+								}},
 							{ view:"button", id:"delete_btn", type:"icon", icon:"mdi mdi-delete", disabled: true},
 						]
 					},
@@ -49,7 +61,38 @@ export default class Owner extends JetView{
 		};
 		return ui;
 	}
-	init(){
 
+	refreshData(){
+		webix.ajax(`${base_url}/threeraza/admin/users`).then(
+			res=>{
+				let result = res.json();
+				let group = groupBy(result, 'type');
+
+				$$("data_users_owner").clearAll();
+				$$("data_users_owner").parse(group['Владелец'],"json");
+
+			},
+			rej=>console.log(rej.json(), 'error')
+		);
+
+	}
+	deleteItem(id, name){
+		console.log(id, name);
+		webix.confirm({
+			ok: "Да", cancel: "Нет",
+			type: "confirm-error",  width: "400px",
+			title: "Удалить элемент ?", text: name,
+			callback: (result)=>{
+				if(result){
+					webix.ajax(`${base_url}/news/delete/${id}`).then(
+						res=>this.refreshData(),
+						rej=>console.log('error', rej)
+					);
+				}
+			}
+		});
+	}
+	init(){
+		this.refreshData();
 	}
 }

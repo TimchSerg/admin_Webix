@@ -51,20 +51,25 @@ export default class windowItem extends StocksController{
 						},
 						{
 							view: "button", css: "webix_primary", value: "Сохранить", click: () => {
-								let values = $$("form_news").getValues();
+								if($$('form_news').validate()){
+									let values = $$("form_news").getValues();
 									values.html_code = String(editor.value);
-								if(values.id != ''){
-									this.updateNews(values);
-								}else{
-									this.createNews(values);
+									if(values.id != ''){
+										this.updateNews(values);
+									}else{
+										this.createNews(values);
+									}
 								}
-
 							}
 						},
 
 					]
 				}
 			],
+			rules:{
+				"name":webix.rules.isNotEmpty,
+				"description":webix.rules.isNotEmpty,
+			}
 
 		};
 		let ui = {

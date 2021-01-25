@@ -15,18 +15,24 @@ let formatWindow = (lists)=>{
 						}},
 					{view:'button', css:"webix_primary", value: 'Сохранить', click: ()=>{
 							let values = {};
-							$$('form_group').getValues((obj)=>{
-								values[obj.data.name] = obj.data.value;
-							});
-							if(values.id == ''){
-								delete values.id;
-								newElement(values);
-							}else {
-								updateElement(values);
+							if($$('form_group').validate()){
+								$$('form_group').getValues((obj)=>{
+									values[obj.data.name] = obj.data.value;
+								});
+								if(values.id == ''){
+									delete values.id;
+									newElement(values);
+								}else {
+									updateElement(values);
+								}
 							}
+
 						}},
 				]}
-		]
+		],
+		rules: {
+			"name":webix.rules.isNotEmpty,
+		}
 	};
 	return result;
 };

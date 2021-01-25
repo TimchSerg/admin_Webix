@@ -87,6 +87,7 @@ export let geolocation = (lists)=> {
 				on:{
 					onAfterRender:()=>{
 						let value = webix.storage.local.get('group_id');
+						console.log(value);
 						$$('group_id').setValue(value);
 					},
 					onChange:(newv)=>{
@@ -96,7 +97,6 @@ export let geolocation = (lists)=> {
 						}
 						let item = $$('select_city').getValue();
 						refreshMetro(item,newv);
-
 					}
 				}
 			},

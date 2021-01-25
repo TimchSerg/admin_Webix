@@ -21,8 +21,6 @@ export default class DataView extends JetView{
 				let result = res.json();
 				let group = groupBy(result, 'type');
 
-				$$("data_users_owner").clearAll();
-				$$("data_users_owner").parse(group['Владелец'],"json");
 				$$("data_users_customer").clearAll();
 				$$("data_users_customer").parse(group['Клиент'],"json");
 

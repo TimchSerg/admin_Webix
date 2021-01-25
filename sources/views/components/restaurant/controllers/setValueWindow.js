@@ -22,7 +22,7 @@ export let setValueWindow = (item)=>{
 
 	$$('dateview_picture').define('data', images);
 
-
+	console.log(item);
 	if(item.geolocation.length){
 		let geolocation = item.geolocation[0];
 		geolocation.select_metro = JSON.parse(geolocation.list_metro);
